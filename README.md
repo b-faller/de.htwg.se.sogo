@@ -1,1 +1,1 @@
-# de.htwg.se.sogo
+# Sogo [![Build Status](https://travis-ci.org/b-faller/de.htwg.se.sogo.svg?branch=master)](https://travis-ci.org/b-faller/de.htwg.se.sogo) [![Coverage Status](https://coveralls.io/repos/github/b-faller/de.htwg.se.sogo/badge.svg?branch=master)](https://coveralls.io/github/b-faller/de.htwg.se.sogo?branch=master) [![License](https://img.shields.io/github/license/b-faller/de.htwg.se.sogo)](https://github.com/b-faller/de.htwg.se.sogo/blob/master/LICENSE) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/b-faller/de.htwg.se.sogo.svg)
