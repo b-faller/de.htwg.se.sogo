@@ -1,9 +1,9 @@
 package de.htwg.se.sogo.model
 
-import de.htwg.se.sogo.model.GamePieceColor
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.matchers.should.Matchers
 
-class GamePieceSpec extends WordSpec with Matchers {
+class GamePieceSpec extends AnyWordSpec with Matchers {
     "A GamePiece" when {
         "not set to any value " should {
             val red_piece = GamePiece(GamePieceColor.RED)
