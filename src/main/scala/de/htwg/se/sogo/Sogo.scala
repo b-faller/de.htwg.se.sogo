@@ -1,4 +1,4 @@
-package de.htwg.se.sudoku
+package de.htwg.se.sogo
 
 object Sogo {
     def main(args: Array[String]): Unit = {
