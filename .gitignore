@@ -6,3 +6,5 @@ target
 project/metals.sbt
 .gitignore
 *.json
+.metals/readonly/scala/Tuple3.scala
+.metals/readonly/scala/Option.scala

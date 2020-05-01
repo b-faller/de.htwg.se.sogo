@@ -1,11 +1,12 @@
 package de.htwg.se.sogo.model
 
-class gameBoard(var dimX: Int, var dimY: Int, var dimZ: Int) {
-    private var boardArray = Array.ofDim[Option[GamePiece]](dimX,dimY,dimZ)
+case class GameBoard(var dimX: Int, var dimY: Int, var dimZ: Int) {
+    //private var boardArray = Array.ofDim[Option[GamePiece]](dimX,dimY,dimZ)
+    private var boardArray = Array.fill(dimX,dimY,dimZ)(None:Option[GamePiece])
 
-    def placePiece(piece: GamePiece, pos: (Int, Int, Int)) {
-        boardArray(pos) = piece
+    def placePiece(piece: Option[GamePiece], pos: (Int, Int, Int)) {
+        boardArray(pos._1)(pos._2)(pos._3) = piece
     }
 
-    var retrievePiece(pos: (Int, Int, Int)): GamePiece = boardArray(pos)
+    def retrievePiece(pos: (Int, Int, Int)): Option[GamePiece] = boardArray(pos._1)(pos._2)(pos._3)
 }
