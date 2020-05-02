@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers
 class SogoSpec extends AnyWordSpec with Matchers {
     "The Sogo main" should {
         "run" in {
-            Sogo.main(Array[String]())
+            Sogo.main(Array[String]("q"))
         }
     }
 }

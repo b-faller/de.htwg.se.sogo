@@ -1,10 +1,9 @@
 package de.htwg.se.sogo.model
 
-import org.scalatest.wordspec.AnyWordSpec
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import org.scalatest._
 
-class GameBoardSpec extends FlatSpec with Matchers {
+class GameBoardSpec extends AnyFlatSpec with Matchers {
         "A GameBoard" should "be Empty when new" in {
             val board = new GameBoard(4,4,4)
             board.retrievePiece(3,3,3) should be(None)
