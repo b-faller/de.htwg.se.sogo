@@ -11,7 +11,7 @@ class Controller(var gameBoard: GameBoard) extends Observable {
 
     def put(x: Int, y: Int): Unit = {
         val piece = new GamePiece(GamePieceColor.RED)
-        gameBoard = gameBoard.placePiece(Some(piece), (x, y, 0))
+        gameBoard = gameBoard.placePiece(piece, (x, y))
         notifyObservers
     }
 }

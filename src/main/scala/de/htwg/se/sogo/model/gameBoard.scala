@@ -9,6 +9,14 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
         return copy(boardVect.updated(pos._1,boardVect(pos._1).updated(pos._2, boardVect(pos._1)(pos._2).updated(pos._3, piece))))
     }
 
+    def placePiece(piece: GamePiece, pos: (Int, Int)): GameBoard = {
+        var i = 0
+        while(boardVect(pos._1)(pos._2)(i) != None) {
+            i += 1
+        }
+        return copy(boardVect.updated(pos._1,boardVect(pos._1).updated(pos._2, boardVect(pos._1)(pos._2).updated(i, Some(piece)))))
+    }
+
     def retrievePiece(pos: (Int, Int, Int)): Option[GamePiece] = boardVect(pos._1)(pos._2)(pos._3)
 
     override def toString: String = {
