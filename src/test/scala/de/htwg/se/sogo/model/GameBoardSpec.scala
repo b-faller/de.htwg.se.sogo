@@ -15,4 +15,31 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
             board.retrievePiece(3,3,3) should be(Some(piece))
             board.retrievePiece(2,1,0) should be(None)
         }
+        it should "return a string representation of itself" in {
+            val board = new GameBoard(3, 3, 3)
+            val piece_r = new GamePiece(GamePieceColor.RED)
+            val piece_b = new GamePiece(GamePieceColor.BLUE)
+            board.placePiece(Some(piece_r), (0, 0, 0))
+            board.placePiece(Some(piece_b), (2, 2, 2))
+            board.toString should be(
+"""Plane 0
+-------
+|R| | |
+| | | |
+| | | |
+
+Plane 1
+-------
+| | | |
+| | | |
+| | | |
+
+Plane 2
+-------
+| | | |
+| | | |
+| | |B|
+
+""")
+        }
     }
