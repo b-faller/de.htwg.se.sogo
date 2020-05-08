@@ -5,7 +5,7 @@ import de.htwg.se.sogo.controller.Controller
 import de.htwg.se.sogo.aview.Tui
 
 object Sogo {
-    val controller = new Controller(new GameBoard(4, 4, 4))
+    val controller = new Controller(new GameBoard(4,4,4))
     val tui = new Tui(controller)
     controller.notifyObservers
 

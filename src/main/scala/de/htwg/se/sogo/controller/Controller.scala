@@ -5,14 +5,13 @@ import de.htwg.se.sogo.util.Observable
 
 class Controller(var gameBoard: GameBoard) extends Observable {
     def createEmptyGameBoard(size: Int): Unit = {
-        gameBoard = new GameBoard(size, size, size)
+        gameBoard = new GameBoard(size,size,size)
         notifyObservers
     }
 
     def put(x: Int, y: Int): Unit = {
         val piece = new GamePiece(GamePieceColor.RED)
-        // TODO: Make GameBoard a case class so that it is immutable
-        gameBoard.placePiece(Some(piece), (x, y, 0))
+        gameBoard = gameBoard.placePiece(Some(piece), (x, y, 0))
         notifyObservers
     }
 }

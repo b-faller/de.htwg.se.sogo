@@ -9,9 +9,9 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
             board.retrievePiece(3,3,3) should be(None)
         }
         it should "accept and be able to retrieve pieces" in {
-            val board = new GameBoard(4,4,4)
+            var board = new GameBoard(4,4,4)
             val piece = new GamePiece(GamePieceColor.RED)
-            board.placePiece(Some(piece), (3,3,3))
+            board = board.placePiece(Some(piece), (3,3,3))
             board.retrievePiece(3,3,3) should be(Some(piece))
             board.retrievePiece(2,1,0) should be(None)
         }
