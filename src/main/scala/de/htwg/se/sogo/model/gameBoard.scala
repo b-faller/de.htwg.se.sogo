@@ -15,13 +15,17 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
         val newline = System.getProperty("line.separator")
         var sb = new StringBuilder
 
+        val dimX = boardVect.length
+        val dimY = boardVect(0).length
+        val dimZ = boardVect(0)(0).length
+    
         for {i <- 0 until dimZ} {
             sb ++= "Plane " + i ++= newline
             sb ++= "-" * (2 * dimX + 1) ++= newline
             for {j <- 0 until dimY} {
                 for {k <- 0 until dimX} {
                     sb += '|' ++= {
-                        boardArray(k)(j)(i) match{
+                        boardVect(k)(j)(i) match{
                             case Some(c) => c.toString
                             case None => " "
                         }
