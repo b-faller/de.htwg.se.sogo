@@ -2,7 +2,7 @@ package de.htwg.se.sogo.controller
 
 import scala.language.reflectiveCalls
 
-import de.htwg.se.sogo.model.GameBoard
+import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.Observer
 
 import org.scalatest.wordspec.{AnyWordSpec}
@@ -36,6 +36,48 @@ class ControllerSpec extends AnyWordSpec with Matchers {
                 f.observer.isUpdated should be(false)
                 f.controller.put(1,1)
                 f.observer.isUpdated should be(true)
+            }
+            "not notify its Observer after a get command" in {
+                val f = fixture
+                f.controller.get(0,0,0)
+                f.observer.isUpdated should be(false)
+            }
+        }
+        "controlling" should {
+            val p1 = new Player("Player 1", GamePieceColor.RED)
+            val p2 = new Player("Player 2", GamePieceColor.BLUE)
+            "have two players" in {
+                val f = fixture
+                f.controller.players.length should be(2)
+            }
+            "initialize the players" in {
+                val f = fixture
+                f.controller.players(0) should be(p1)
+                f.controller.players(1) should be(p2)
+            }
+            "return the current player" in {
+                val f = fixture
+                f.controller.getCurrentPlayer should be(p1)
+            }
+            "change the current player after placing a GamePiece" in {
+                val f = fixture
+                f.controller.currentPlayer should be(0)
+                f.controller.put(1,1)
+                f.controller.currentPlayer should be(1)
+                f.controller.put(1,2)
+                f.controller.currentPlayer should be(0)
+            }
+            "place a GamePiece with the players color" in {
+                val f = fixture
+                val red = Some(GamePiece(GamePieceColor.RED))
+                val blue = Some(GamePiece(GamePieceColor.BLUE))
+                f.controller.currentPlayer = 0
+                f.controller.put(1,1)
+                f.controller.get(1,1,0) should be(red)
+
+                f.controller.currentPlayer = 1
+                f.controller.put(1,2)
+                f.controller.get(1,2,0) should be(blue)
             }
         }
     }

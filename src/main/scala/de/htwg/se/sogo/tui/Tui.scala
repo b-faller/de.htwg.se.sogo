@@ -24,5 +24,9 @@ class Tui(controller: Controller) extends Observer {
         }
     }
 
-    override def update: Unit = println(controller.gameBoard.toString)
+    override def update: Unit = {
+        println("Game board:")
+        println(controller.gameBoard.toString)
+        println(controller.getCurrentPlayer.name + ", please make an input.")
+    }
 }
