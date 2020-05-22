@@ -19,6 +19,13 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
             board.retrievePiece(3,3,2) should be(None)
             board.retrievePiece(2,1,0) should be(None)
         }
+        it should "return null when placing at an invalid position" in {
+            var board = new GameBoard(4,4,4)
+            val piece1 = new GamePiece(GamePieceColor.RED)
+            board.placePiece(piece1, (4,3)) should be(null)
+            board.placePiece(piece1, (4,4)) should be(null)
+            board.placePiece(piece1, (-1,-3)) should be(null)
+        }
         it should "return a string representation of itself" in {
             var board = new GameBoard(3, 3, 3)
             val piece_r = new GamePiece(GamePieceColor.RED)

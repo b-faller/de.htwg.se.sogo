@@ -10,6 +10,9 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
     }
 
     def placePiece(piece: GamePiece, pos: (Int, Int)): GameBoard = {
+        if (pos._1 >= boardVect(0).length || pos._2 >= boardVect(0)(0).length || pos._1 < 0 || pos._2 < 0) {
+            return null;
+        }
         var i = 0
         while(boardVect(pos._1)(pos._2)(i) != None) {
             i += 1

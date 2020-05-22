@@ -8,3 +8,4 @@ project/metals.sbt
 *.json
 .metals/readonly/scala/Tuple3.scala
 .metals/readonly/scala/Option.scala
+src/.metals/metals.h2.db
