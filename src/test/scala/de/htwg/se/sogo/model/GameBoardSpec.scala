@@ -68,11 +68,11 @@ Plane 2
     // |R|R|
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonX(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 1, 1))
     board = board.placePiece(Some(piece), (1, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonX(GamePieceColor.RED) should be(true)
+    board.hasWonX(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable in y-direction in a single layer" in {
     // Plane 1
@@ -81,11 +81,11 @@ Plane 2
     // | |R|
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonY(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (1, 0, 1))
     board = board.placePiece(Some(piece), (1, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonY(GamePieceColor.RED) should be(true)
+    board.hasWonY(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable in x-direction ascending" in {
     // Plane 0
@@ -99,11 +99,11 @@ Plane 2
     // | | |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonXAscending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 0))
     board = board.placePiece(Some(piece), (1, 0, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonXAscending(GamePieceColor.RED) should be(true)
+    board.hasWonXAscending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable in x-direction descending" in {
     // Plane 0
@@ -117,11 +117,11 @@ Plane 2
     // | | |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonXDescending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 1))
     board = board.placePiece(Some(piece), (1, 0, 0))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonXDescending(GamePieceColor.RED) should be(true)
+    board.hasWonXDescending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable in y-direction ascending" in {
     // Plane 0
@@ -135,11 +135,11 @@ Plane 2
     // |R| |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonYAscending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 0))
     board = board.placePiece(Some(piece), (0, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonYAscending(GamePieceColor.RED) should be(true)
+    board.hasWonYAscending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable in y-direction descending" in {
     // Plane 0
@@ -153,11 +153,11 @@ Plane 2
     // | | |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonYDescending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (1, 0, 1))
     board = board.placePiece(Some(piece), (1, 1, 0))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonYDescending(GamePieceColor.RED) should be(true)
+    board.hasWonYDescending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable diagonally upper left to lower right" in {
     // Plane 1
@@ -166,11 +166,11 @@ Plane 2
     // | |R|
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonally(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 1))
     board = board.placePiece(Some(piece), (1, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonally(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonally(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable diagonally upper right to lower left" in {
     // Plane 1
@@ -179,13 +179,13 @@ Plane 2
     // |R| |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonally(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (1, 0, 1))
     board = board.placePiece(Some(piece), (0, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonally(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonally(GamePieceColor.BLUE) should be(false)
   }
-  it should "be winnable diagonally upper right to lower left ascending" in {
+  it should "be winnable diagonally upper left to lower right ascending" in {
     // Plane 0
     // -------
     // |R| |
@@ -197,13 +197,13 @@ Plane 2
     // | |R|
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 0))
     board = board.placePiece(Some(piece), (1, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonallyAscending(GamePieceColor.BLUE) should be(false)
   }
-  it should "be winnable diagonally upper right to lower left descending" in {
+  it should "be winnable diagonally upper left to lower right descending" in {
     // Plane 0
     // -------
     // | | |
@@ -215,11 +215,11 @@ Plane 2
     // | | |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (0, 0, 1))
     board = board.placePiece(Some(piece), (1, 1, 0))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonallyDescending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable diagonally upper right to lower left ascending" in {
     // Plane 0
@@ -233,11 +233,11 @@ Plane 2
     // |R| |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (1, 0, 0))
     board = board.placePiece(Some(piece), (0, 1, 1))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonallyAscending(GamePieceColor.BLUE) should be(false)
   }
   it should "be winnable diagonally upper right to lower left descending" in {
     // Plane 0
@@ -251,10 +251,10 @@ Plane 2
     // | | |
     var board = new GameBoard(2, 2, 2)
     val piece = new GamePiece(GamePieceColor.RED)
-    board.hasWon(GamePieceColor.RED) should be(false)
+    board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(false)
     board = board.placePiece(Some(piece), (1, 0, 1))
     board = board.placePiece(Some(piece), (0, 1, 0))
-    board.hasWon(GamePieceColor.RED) should be(true)
-    board.hasWon(GamePieceColor.BLUE) should be(false)
+    board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(true)
+    board.hasWonDiagonallyDescending(GamePieceColor.BLUE) should be(false)
   }
 }
