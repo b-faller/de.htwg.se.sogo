@@ -10,75 +10,87 @@ import org.scalatest.matchers.should.Matchers
 
 class ControllerSpec extends AnyWordSpec with Matchers {
 
-    def fixture = new {
-        val gameBoard = new GameBoard(4, 4, 4)
-        val controller = new Controller(gameBoard)
-        val observer = new Observer {
-            var updated: Boolean = false
-            def isUpdated: Boolean = updated
-            override def update: Unit = {this.updated = true}
-        }
-        controller.add(observer)
+  def fixture = new {
+    val gameBoard = new GameBoard(4, 4, 4)
+    val controller = new Controller(gameBoard)
+    val observer = new Observer {
+      var updated: Boolean = false
+      def isUpdated: Boolean = updated
+      override def update: Unit = { this.updated = true }
     }
+    controller.add(observer)
+  }
 
-    "A Controller" when {
-        "observed by an observer" should {
-            "notify its Observer after creation" in {
-                val f = fixture
-                f.observer.isUpdated should be(false)
-                val newGameBoard = new GameBoard(3, 3, 3)
-                f.controller.createEmptyGameBoard(3)
-                f.controller.gameBoard should be(newGameBoard)
-                f.observer.isUpdated should be(true)
-            }
-            "notify its Observer after GamePiece placement" in {
-                val f = fixture
-                f.observer.isUpdated should be(false)
-                f.controller.put(1,1)
-                f.observer.isUpdated should be(true)
-            }
-            "not notify its Observer after a get command" in {
-                val f = fixture
-                f.controller.get(0,0,0)
-                f.observer.isUpdated should be(false)
-            }
-        }
-        "controlling" should {
-            val p1 = new Player("Player 1", GamePieceColor.RED)
-            val p2 = new Player("Player 2", GamePieceColor.BLUE)
-            "have two players" in {
-                val f = fixture
-                f.controller.players.length should be(2)
-            }
-            "initialize the players" in {
-                val f = fixture
-                f.controller.players(0) should be(p1)
-                f.controller.players(1) should be(p2)
-            }
-            "return the current player" in {
-                val f = fixture
-                f.controller.getCurrentPlayer should be(p1)
-            }
-            "change the current player after placing a GamePiece" in {
-                val f = fixture
-                f.controller.currentPlayer should be(0)
-                f.controller.put(1,1)
-                f.controller.currentPlayer should be(1)
-                f.controller.put(1,2)
-                f.controller.currentPlayer should be(0)
-            }
-            "place a GamePiece with the players color" in {
-                val f = fixture
-                val red = Some(GamePiece(GamePieceColor.RED))
-                val blue = Some(GamePiece(GamePieceColor.BLUE))
-                f.controller.currentPlayer = 0
-                f.controller.put(1,1)
-                f.controller.get(1,1,0) should be(red)
-
-                f.controller.currentPlayer = 1
-                f.controller.put(1,2)
-                f.controller.get(1,2,0) should be(blue)
-            }
-        }
+  "A Controller" when {
+    "observed by an observer" should {
+      "notify its Observer after creation" in {
+        val f = fixture
+        f.observer.isUpdated should be(false)
+        val newGameBoard = new GameBoard(3, 3, 3)
+        f.controller.createEmptyGameBoard(3)
+        f.controller.gameBoard should be(newGameBoard)
+        f.observer.isUpdated should be(true)
+      }
+      "notify its Observer after GamePiece placement" in {
+        val f = fixture
+        f.observer.isUpdated should be(false)
+        f.controller.put(1, 1)
+        f.observer.isUpdated should be(true)
+      }
+      "not notify its Observer after a get command" in {
+        val f = fixture
+        f.controller.get(0, 0, 0)
+        f.observer.isUpdated should be(false)
+      }
     }
+    "controlling" should {
+      val p1 = new Player("Player 1", GamePieceColor.RED)
+      val p2 = new Player("Player 2", GamePieceColor.BLUE)
+      "have two players" in {
+        val f = fixture
+        f.controller.players.length should be(2)
+      }
+      "initialize the players" in {
+        val f = fixture
+        f.controller.players(0) should be(p1)
+        f.controller.players(1) should be(p2)
+      }
+      "return the current player" in {
+        val f = fixture
+        f.controller.getCurrentPlayer should be(p1)
+      }
+      "change the current player after placing a GamePiece" in {
+        val f = fixture
+        f.controller.currentPlayer should be(0)
+        f.controller.put(1, 1)
+        f.controller.currentPlayer should be(1)
+        f.controller.put(1, 2)
+        f.controller.currentPlayer should be(0)
+      }
+      "place a GamePiece with the players color" in {
+        val f = fixture
+        val red = Some(GamePiece(GamePieceColor.RED))
+        val blue = Some(GamePiece(GamePieceColor.BLUE))
+        f.controller.currentPlayer = 0
+        f.controller.put(1, 1)
+        f.controller.get(1, 1, 0) should be(red)
+
+        f.controller.currentPlayer = 1
+        f.controller.put(1, 2)
+        f.controller.get(1, 2, 0) should be(blue)
+      }
+      "return wether a player has won" in {
+        var gameBoard = new GameBoard(2, 2, 2)
+        var controller = new Controller(gameBoard)
+        val red = Some(GamePiece(GamePieceColor.RED))
+        val p1 = new Player("Player 1", GamePieceColor.RED)
+        controller.hasWon should be(None)
+
+        gameBoard = gameBoard.placePiece(red, (0, 0, 0))
+        gameBoard = gameBoard.placePiece(red, (1, 0, 0))
+        controller = new Controller(gameBoard)
+        controller.hasWon should be(Some(p1))
+      }
+    }
+  }
 }
