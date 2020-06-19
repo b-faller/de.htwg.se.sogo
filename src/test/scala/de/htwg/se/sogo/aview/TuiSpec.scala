@@ -47,7 +47,18 @@ class TuiSpec extends AnyWordSpec with Matchers {
     "ignore an malformed put instruction" in {
       val f = fixture
       f.tui.processInputLine("222")
-      // TODO: ingore values such as 99
+    }
+    "ignore an out of bounds put instruction" in {
+      val f = fixture
+      f.tui.processInputLine("99")
+    }
+    "ignore an invalid put when no vertical space is free" in {
+      val f = fixture
+      f.tui.processInputLine("00")
+      f.tui.processInputLine("00")
+      f.tui.processInputLine("00")
+      f.tui.processInputLine("00")
+      f.tui.processInputLine("00")
     }
     "ignore an arbitrary input" in {
       val f = fixture

@@ -1,5 +1,7 @@
 package de.htwg.se.sogo.controller
 
+import scala.util.Try
+
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.{Observable, UndoManager}
 
@@ -16,15 +18,16 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   def getCurrentPlayer: Player = players(currentPlayer)
 
   def createEmptyGameBoard(size: Int): Unit = {
-    undoManager.doStep(new NewGameCommand(size, this))
+    undoManager.doStep(new NewGameCommand(size, this)).get
     notifyObservers
   }
 
-  def put(x: Int, y: Int): Unit = {
+  def put(x: Int, y: Int): Try[Unit] = {
     val piece = new GamePiece(players(currentPlayer).color)
-    undoManager.doStep(new PutCommand(x, y, piece, this))
+    val result = undoManager.doStep(new PutCommand(x, y, piece, this))
     currentPlayer = (currentPlayer + 1) % players.length
     notifyObservers
+    result
   }
 
   def get(x: Int, y: Int, z: Int): Option[GamePiece] = {

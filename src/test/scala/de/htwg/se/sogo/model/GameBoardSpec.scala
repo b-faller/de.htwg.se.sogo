@@ -16,27 +16,33 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
     var board = new GameBoard(4, 4, 4)
     val piece1 = new GamePiece(GamePieceColor.RED)
     val piece2 = new GamePiece(GamePieceColor.BLUE)
-    board = board.placePiece(piece1, (3, 3))
-    board = board.placePiece(piece2, (3, 3))
+    board = board.placePiece(piece1, (3, 3)).get
+    board = board.placePiece(piece2, (3, 3)).get
     board.get(3, 3, 0) should be(Some(piece1))
     board.get(3, 3, 1) should be(Some(piece2))
     board.get(3, 3, 2) should be(None)
     board.get(2, 1, 0) should be(None)
   }
-  it should "return null when placing at an invalid position" in {
+  it should "fail on an out of bounds operation" in {
     var board = new GameBoard(4, 4, 4)
     val piece1 = new GamePiece(GamePieceColor.RED)
-    board.placePiece(piece1, (4, 3)) should be(null)
-    board.placePiece(piece1, (4, 4)) should be(null)
-    board.placePiece(piece1, (-1, -3)) should be(null)
+    board.placePiece(piece1, (0,0)).isFailure should be(false)
+    board.placePiece(piece1, (9,9)).isFailure should be(true)
+  }
+  it should "fail if no vertical place is free" in {
+    var board = new GameBoard(2)
+    val piece1 = new GamePiece(GamePieceColor.RED)
+    board = board.placePiece(piece1, (0,0)).get
+    board = board.placePiece(piece1, (0,0)).get
+    board.placePiece(piece1, (0,0)).isFailure should be(true)
   }
   it should "be able to pop a piece" in {
     var board = new GameBoard(3)
     val piece1 = new GamePiece(GamePieceColor.RED)
     val piece2 = new GamePiece(GamePieceColor.BLUE)
     board.popPiece((0, 0))._2 should be(None)
-    board = board.placePiece(piece1, (0, 0))
-    board = board.placePiece(piece2, (0, 0))
+    board = board.placePiece(piece1, (0, 0)).get
+    board = board.placePiece(piece2, (0, 0)).get
     val (b1, p2) = board.popPiece((0, 0))
     board = b1
     p2 should be(Some(piece2))
