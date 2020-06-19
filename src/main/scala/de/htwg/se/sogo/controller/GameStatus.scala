@@ -14,7 +14,9 @@ object GameStatus extends Enumeration{
 
   val playermap = Map[GameStatus, Int](
     RED_TURN -> 0,
-    BLUE_TURN -> 1
+    BLUE_TURN -> 1,
+    RED_WON -> 0,
+    BLUE_WON -> 1
   );
 
   def message(gameStatus: GameStatus) = {

@@ -36,7 +36,6 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   }
 
   def hasWon(): Option[Player] = {
-    println("Controller: Check if Game was won")
     for (p <- players) {
       if (gameBoard.hasWon(p.color)) {
         return Some(p)
