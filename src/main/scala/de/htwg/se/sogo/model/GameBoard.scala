@@ -17,7 +17,11 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
 
   def dim(): Int = boardVect.length
 
-  def placePiece(piece: Option[GamePiece], pos: (Int, Int, Int)): GameBoard = {
+  def isEmpty: Boolean = {
+    boardVect.flatten.flatten.forall((p: Option[GamePiece]) => p.isEmpty)
+  }
+
+  def set(piece: Option[GamePiece], pos: (Int, Int, Int)): GameBoard = {
     return copy(
       boardVect.updated(
         pos._1,
@@ -26,6 +30,9 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
       )
     )
   }
+
+  def get(pos: (Int, Int, Int)): Option[GamePiece] =
+    boardVect(pos._1)(pos._2)(pos._3)
 
   def placePiece(piece: GamePiece, pos: (Int, Int)): GameBoard = {
     if (pos._1 >= boardVect(0).length || pos._2 >= boardVect(0)(0).length || pos._1 < 0 || pos._2 < 0) {
@@ -44,8 +51,15 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
     )
   }
 
-  def retrievePiece(pos: (Int, Int, Int)): Option[GamePiece] =
-    boardVect(pos._1)(pos._2)(pos._3)
+  def popPiece(pos: (Int, Int)): (GameBoard, Option[GamePiece]) = {
+    for (z <- dim - 1 to 0 by -1) {
+      val piece = get((pos._1, pos._2, z))
+      if (piece.isDefined) {
+        return (set(None, (pos._1, pos._2, z)), piece)
+      }
+    }
+    (this, None)
+  }
 
   def hasWon(color: GamePieceColor.Value): Boolean = {
     if (hasWonX(color)) return true

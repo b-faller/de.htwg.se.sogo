@@ -12,6 +12,8 @@ class Tui(controller: Controller) extends Observer {
     input match {
       case "q" =>
       case "n" => controller.createEmptyGameBoard(size)
+      case "u" => controller.undo
+      case "r" => controller.redo
       case _ =>
         try {
           input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {

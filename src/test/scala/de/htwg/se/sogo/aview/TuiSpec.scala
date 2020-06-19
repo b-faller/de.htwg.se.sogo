@@ -17,7 +17,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
         }
         "put a GamePiece on input '23'" in {
             tui.processInputLine("23")
-            controller.gameBoard.retrievePiece(2, 3, 0) should be(
+            controller.gameBoard.get(2, 3, 0) should be(
                 Some(GamePiece(GamePieceColor.RED))
             )
         }

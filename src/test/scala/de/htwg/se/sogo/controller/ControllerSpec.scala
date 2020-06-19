@@ -86,8 +86,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         val p1 = new Player("Player 1", GamePieceColor.RED)
         controller.hasWon should be(None)
 
-        gameBoard = gameBoard.placePiece(red, (0, 0, 0))
-        gameBoard = gameBoard.placePiece(red, (1, 0, 0))
+        gameBoard = gameBoard.set(red, (0, 0, 0))
+        gameBoard = gameBoard.set(red, (1, 0, 0))
         controller = new Controller(gameBoard)
         controller.hasWon should be(Some(p1))
       }
