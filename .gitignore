@@ -1,11 +1,9 @@
 target
 *.class
 *.log
-.metals/metals.h2.db
-.metals/metals.lock.db
 project/metals.sbt
 .gitignore
 *.json
-.metals/readonly/scala/Tuple3.scala
-.metals/readonly/scala/Option.scala
 src/.metals/metals.h2.db
+.metals/
+.bloop/

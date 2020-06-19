@@ -1,19 +1,18 @@
 package de.htwg.se.sogo.controller
 
+import de.htwg.se.sogo.controller.GameStatus._
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.{Observable, UndoManager}
 
 class Controller(var gameBoard: GameBoard) extends Observable {
 
   private val undoManager = new UndoManager
+  var gameStatus: GameStatus = RED_TURN
 
   val players = Vector(
     new Player("Player 1", GamePieceColor.RED),
     new Player("Player 2", GamePieceColor.BLUE)
   )
-  var currentPlayer = 0
-
-  def getCurrentPlayer: Player = players(currentPlayer)
 
   def createEmptyGameBoard(size: Int): Unit = {
     gameBoard = new GameBoard(size)
@@ -21,9 +20,8 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   }
 
   def put(x: Int, y: Int): Unit = {
-    val piece = new GamePiece(players(currentPlayer).color)
-    undoManager.doStep(new SetCommand(x, y, piece, this))
-    currentPlayer = (currentPlayer + 1) % players.length
+    val piece = new GamePiece(players(GameStatus.player(this.gameStatus)).color)
+    undoManager.doStep(new PutCommand(x, y, piece, this))
     notifyObservers
   }
 
@@ -32,8 +30,12 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   }
 
   def hasWon(): Option[Player] = {
+    println("Controller: Check if Game was won")
     for (p <- players) {
-      if (gameBoard.hasWon(p.color)) return Some(p)
+      if (gameBoard.hasWon(p.color)){
+        return Some(p)
+      }
+  
     }
     None
   }
