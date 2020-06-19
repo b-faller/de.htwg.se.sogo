@@ -125,6 +125,11 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.redo
         controller.gameBoard should be(newGameBoard)
       }
+      "not fail to undo after an invalid put" in {
+        var controller = new Controller(new GameBoard(2))
+        controller.put(9, 9)
+        controller.undo
+      }
     }
   }
 }

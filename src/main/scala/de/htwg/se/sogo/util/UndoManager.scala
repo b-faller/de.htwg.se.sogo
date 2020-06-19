@@ -1,12 +1,16 @@
 package de.htwg.se.sogo.util
 
+import scala.util.Try
+
 class UndoManager {
   private var undoStack: List[Command] = Nil
   private var redoStack: List[Command] = Nil
 
-  def doStep(command: Command) = {
-    undoStack = command :: undoStack
-    command.doStep
+  def doStep(command: Command): Try[Unit] = {
+    Try({
+      command.doStep
+      undoStack = command :: undoStack
+    })
   }
 
   def undoStep = {

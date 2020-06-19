@@ -9,9 +9,9 @@ import de.htwg.se.sogo.model.GamePieceColor._
 class PutCommand(x: Int, y: Int, piece: GamePiece, controller: Controller)
     extends Command {
   override def doStep: Unit = {
+    controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y)).get
+    
     controller.stateStackBackward.push(controller.gameStatus)
-
-    controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y))
     controller.gameStatus = if (controller.gameStatus == RED_TURN) BLUE_TURN else RED_TURN
     
     controller.gameStatus = controller.hasWon() match{
@@ -27,7 +27,7 @@ class PutCommand(x: Int, y: Int, piece: GamePiece, controller: Controller)
   }
 
   override def redoStep: Unit = {
-    controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y))
+    controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y)).get
     controller.stateStackBackward.push(controller.gameStatus)
     controller.gameStatus = controller.stateStackForeward.pop()
   }

@@ -1,6 +1,7 @@
 package de.htwg.se.sogo.model
 
 import scala.collection.mutable.StringBuilder
+import scala.util.Try
 
 object GameBoardFactory {
   def apply(s: String): GameBoard = s match {
@@ -34,21 +35,14 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
   def get(pos: (Int, Int, Int)): Option[GamePiece] =
     boardVect(pos._1)(pos._2)(pos._3)
 
-  def placePiece(piece: GamePiece, pos: (Int, Int)): GameBoard = {
-    if (pos._1 >= boardVect(0).length || pos._2 >= boardVect(0)(0).length || pos._1 < 0 || pos._2 < 0) {
-      return null;
-    }
-    var i = 0
-    while (boardVect(pos._1)(pos._2)(i) != None) {
-      i += 1
-    }
-    return copy(
-      boardVect.updated(
-        pos._1,
-        boardVect(pos._1)
-          .updated(pos._2, boardVect(pos._1)(pos._2).updated(i, Some(piece)))
-      )
-    )
+  def placePiece(piece: GamePiece, pos: (Int, Int)): Try[GameBoard] = {
+    Try({
+      var i = 0
+      while (boardVect(pos._1)(pos._2)(i) != None) {
+        i += 1
+      }
+      set(Some(piece), (pos._1, pos._2, i))
+    })
   }
 
   def popPiece(pos: (Int, Int)): (GameBoard, Option[GamePiece]) = {

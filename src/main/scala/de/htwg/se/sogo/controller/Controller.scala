@@ -1,6 +1,8 @@
 package de.htwg.se.sogo.controller
 
 import de.htwg.se.sogo.controller.GameStatus._
+import scala.util.Try
+
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.{Observable, UndoManager}
 import scala.collection.mutable.Stack
@@ -18,14 +20,15 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   )
 
   def createEmptyGameBoard(size: Int): Unit = {
-    undoManager.doStep(new NewGameCommand(size, this))
+    undoManager.doStep(new NewGameCommand(size, this)).get
     notifyObservers
   }
 
-  def put(x: Int, y: Int): Unit = {
+  def put(x: Int, y: Int): Try[Unit] = {
     val piece = new GamePiece(players(GameStatus.player(this.gameStatus)).color)
-    undoManager.doStep(new PutCommand(x, y, piece, this))
+    val result = undoManager.doStep(new PutCommand(x, y, piece, this))
     notifyObservers
+    result
   }
 
   def get(x: Int, y: Int, z: Int): Option[GamePiece] = {
@@ -35,10 +38,10 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   def hasWon(): Option[Player] = {
     println("Controller: Check if Game was won")
     for (p <- players) {
-      if (gameBoard.hasWon(p.color)){
+      if (gameBoard.hasWon(p.color)) {
         return Some(p)
       }
-  
+
     }
     None
   }

@@ -17,8 +17,9 @@ class Tui(controller: Controller) extends Observer {
       case _ =>
         try {
           input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
-            case x :: y :: Nil => controller.put(x, y)
-            case _             =>
+            case x :: y :: Nil =>
+              controller.put(x, y).getOrElse(println("invalid put!"))
+            case _ =>
           }
         } catch {
           case _: NumberFormatException =>
