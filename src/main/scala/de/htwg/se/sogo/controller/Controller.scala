@@ -16,7 +16,7 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   def getCurrentPlayer: Player = players(currentPlayer)
 
   def createEmptyGameBoard(size: Int): Unit = {
-    gameBoard = new GameBoard(size)
+    undoManager.doStep(new NewGameCommand(size, this))
     notifyObservers
   }
 
