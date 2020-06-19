@@ -22,7 +22,7 @@ class Controller(var gameBoard: GameBoard) extends Observable {
 
   def put(x: Int, y: Int): Unit = {
     val piece = new GamePiece(players(currentPlayer).color)
-    undoManager.doStep(new SetCommand(x, y, piece, this))
+    undoManager.doStep(new PutCommand(x, y, piece, this))
     currentPlayer = (currentPlayer + 1) % players.length
     notifyObservers
   }

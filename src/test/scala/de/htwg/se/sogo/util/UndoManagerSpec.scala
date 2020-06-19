@@ -6,9 +6,8 @@ import org.scalatest.matchers.should.Matchers
 class UndoManagerSpec extends AnyWordSpec with Matchers {
 
   "An UndoManager" should {
-    val undoManager = new UndoManager
-
     "have a do, undo and redo" in {
+      val undoManager = new UndoManager
       val command = new incrCommand
       command.state should be(0)
       undoManager.doStep(command)
@@ -19,7 +18,24 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
       command.state should be(1)
     }
 
+    "handle undo on an empty stack" in {
+      val undoManager = new UndoManager
+      val command = new incrCommand
+      command.state should be(0)
+      undoManager.undoStep
+      command.state should be(0)
+    }
+
+    "handle redo on an empty stack" in {
+      val undoManager = new UndoManager
+      val command = new incrCommand
+      command.state should be(0)
+      undoManager.redoStep
+      command.state should be(0)
+    }
+
     "handle multiple undo steps correctly" in {
+      val undoManager = new UndoManager
       val command = new incrCommand
       command.state should be(0)
       undoManager.doStep(command)
