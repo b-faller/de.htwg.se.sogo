@@ -26,15 +26,15 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
   it should "fail on an out of bounds operation" in {
     var board = new GameBoard(4, 4, 4)
     val piece1 = new GamePiece(GamePieceColor.RED)
-    board.placePiece(piece1, (0,0)).isFailure should be(false)
-    board.placePiece(piece1, (9,9)).isFailure should be(true)
+    board.placePiece(piece1, (0, 0)).isFailure should be(false)
+    board.placePiece(piece1, (9, 9)).isFailure should be(true)
   }
   it should "fail if no vertical place is free" in {
     var board = new GameBoard(2)
     val piece1 = new GamePiece(GamePieceColor.RED)
-    board = board.placePiece(piece1, (0,0)).get
-    board = board.placePiece(piece1, (0,0)).get
-    board.placePiece(piece1, (0,0)).isFailure should be(true)
+    board = board.placePiece(piece1, (0, 0)).get
+    board = board.placePiece(piece1, (0, 0)).get
+    board.placePiece(piece1, (0, 0)).isFailure should be(true)
   }
   it should "be able to pop a piece" in {
     var board = new GameBoard(3)
@@ -121,6 +121,25 @@ Plane 2
     board = board.set(Some(piece), (1, 1, 1))
     board.hasWonY(GamePieceColor.RED) should be(true)
     board.hasWonY(GamePieceColor.BLUE) should be(false)
+    board.hasWon(GamePieceColor.RED) should be(true)
+  }
+  it should "be winnable in z-direction" in {
+    // Plane 0
+    // -------
+    // | | |
+    // | |R|
+    //
+    // Plane 1
+    // -------
+    // | | |
+    // | |R|
+    var board = new GameBoard(2, 2, 2)
+    val piece = new GamePiece(GamePieceColor.RED)
+    board.hasWonZ(GamePieceColor.RED) should be(false)
+    board = board.set(Some(piece), (1, 1, 0))
+    board = board.set(Some(piece), (1, 1, 1))
+    board.hasWonZ(GamePieceColor.RED) should be(true)
+    board.hasWonZ(GamePieceColor.BLUE) should be(false)
     board.hasWon(GamePieceColor.RED) should be(true)
   }
   it should "be winnable in x-direction ascending" in {

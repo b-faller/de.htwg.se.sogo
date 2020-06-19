@@ -58,6 +58,7 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
   def hasWon(color: GamePieceColor.Value): Boolean = {
     if (hasWonX(color)) return true
     if (hasWonY(color)) return true
+    if (hasWonZ(color)) return true
     if (hasWonXAscending(color)) return true
     if (hasWonXDescending(color)) return true
     if (hasWonYAscending(color)) return true
@@ -86,6 +87,18 @@ case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
       z <- 0 until dim
     } {
       val yRow = for (y <- 0 until dim) yield boardVect(x)(y)(z)
+      if (yRow.forall(gp => isGamePieceColorEqual(gp, color))) return true
+    }
+
+    false
+  }
+
+  def hasWonZ(color: GamePieceColor.Value): Boolean = {
+    for {
+      x <- 0 until dim
+      y <- 0 until dim
+    } {
+      val yRow = for (z <- 0 until dim) yield boardVect(x)(y)(z)
       if (yRow.forall(gp => isGamePieceColorEqual(gp, color))) return true
     }
 
