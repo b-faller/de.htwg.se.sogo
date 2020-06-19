@@ -8,6 +8,10 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
     val board = new GameBoard(4, 4, 4)
     board.retrievePiece(3, 3, 3) should be(None)
   }
+  it should "be created using a factory method" in {
+    GameBoardFactory.apply("small") should be(new GameBoard(3, 3, 3))
+    GameBoardFactory.apply("standard") should be(new GameBoard(4, 4, 4))
+  }
   it should "accept and be able to retrieve pieces" in {
     var board = new GameBoard(4, 4, 4)
     val piece1 = new GamePiece(GamePieceColor.RED)

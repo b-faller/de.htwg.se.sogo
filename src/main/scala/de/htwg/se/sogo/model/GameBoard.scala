@@ -2,9 +2,18 @@ package de.htwg.se.sogo.model
 
 import scala.collection.mutable.StringBuilder
 
+object GameBoardFactory {
+  def apply(s: String): GameBoard = s match {
+    case "small"    => new GameBoard(3)
+    case "standard" => new GameBoard(4)
+  }
+}
+
 case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
   def this(dimX: Int, dimY: Int, dimZ: Int) =
     this(Vector.fill(dimX, dimY, dimZ)(None))
+
+  def this(d: Int) = this(d, d, d)
 
   def dim(): Int = boardVect.length
 

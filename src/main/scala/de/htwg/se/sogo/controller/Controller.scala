@@ -13,7 +13,7 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   def getCurrentPlayer: Player = players(currentPlayer)
 
   def createEmptyGameBoard(size: Int): Unit = {
-    gameBoard = new GameBoard(size, size, size)
+    gameBoard = new GameBoard(size)
     notifyObservers
   }
 
