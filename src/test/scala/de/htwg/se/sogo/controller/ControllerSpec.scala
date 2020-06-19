@@ -91,6 +91,44 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller = new Controller(gameBoard)
         controller.hasWon should be(Some(p1))
       }
+      "undo the last put" in {
+        var controller = new Controller(new GameBoard(2))
+        val red = Some(GamePiece(GamePieceColor.RED))
+        controller.gameBoard.get((0,0,0)) should be(None)
+        controller.put(0, 0)
+        controller.gameBoard.get((0,0,0)) should be(red)
+        controller.undo
+        controller.gameBoard.get((0,0,0)) should be(None)
+      }
+      "redo the last put" in {
+        var controller = new Controller(new GameBoard(2))
+        val red = Some(GamePiece(GamePieceColor.RED))
+        controller.gameBoard.get((0,0,0)) should be(None)
+        controller.put(0, 0)
+        controller.undo
+        controller.redo
+        controller.gameBoard.get((0,0,0)) should be(red)
+      }
+      "undo starting a new game" in {
+        val oldGameBoard = new GameBoard(2)
+        val newGameBoard = new GameBoard(3)
+        var controller = new Controller(oldGameBoard)
+        controller.gameBoard should be(oldGameBoard)
+        controller.createEmptyGameBoard(3)
+        controller.gameBoard should be(newGameBoard)
+        controller.undo
+        controller.gameBoard should be(oldGameBoard)
+      }
+      "redo starting a new game" in {
+        val oldGameBoard = new GameBoard(2)
+        val newGameBoard = new GameBoard(3)
+        var controller = new Controller(oldGameBoard)
+        controller.gameBoard should be(oldGameBoard)
+        controller.createEmptyGameBoard(3)
+        controller.undo
+        controller.redo
+        controller.gameBoard should be(newGameBoard)
+      }
     }
   }
 }

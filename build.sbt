@@ -4,6 +4,8 @@ ThisBuild / scalaVersion     := "2.13.1"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "de.htwg.se"
 
+scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature")
+
 lazy val root = (project in file("."))
   .settings(
     name := "de.htwg.se.sogo",
