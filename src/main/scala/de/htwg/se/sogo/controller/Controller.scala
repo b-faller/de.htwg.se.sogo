@@ -3,11 +3,14 @@ package de.htwg.se.sogo.controller
 import de.htwg.se.sogo.controller.GameStatus._
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.{Observable, UndoManager}
+import scala.collection.mutable.Stack
 
 class Controller(var gameBoard: GameBoard) extends Observable {
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = RED_TURN
+  var stateStackForeward = Stack[GameStatus]()
+  var stateStackBackward = Stack[GameStatus]()
 
   val players = Vector(
     new Player("Player 1", GamePieceColor.RED),

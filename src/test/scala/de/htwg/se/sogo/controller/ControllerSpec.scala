@@ -55,27 +55,23 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         f.controller.players(0) should be(p1)
         f.controller.players(1) should be(p2)
       }
-      "return the current player" in {
+      "change state after placing a GamePiece" in {
         val f = fixture
-        f.controller.getCurrentPlayer should be(p1)
-      }
-      "change the current player after placing a GamePiece" in {
-        val f = fixture
-        f.controller.currentPlayer should be(0)
+        f.controller.gameStatus should be(GameStatus.RED_TURN)
         f.controller.put(1, 1)
-        f.controller.currentPlayer should be(1)
+        f.controller.gameStatus should be(GameStatus.BLUE_TURN)
         f.controller.put(1, 2)
-        f.controller.currentPlayer should be(0)
+        f.controller.gameStatus should be(GameStatus.RED_TURN)
       }
       "place a GamePiece with the players color" in {
         val f = fixture
         val red = Some(GamePiece(GamePieceColor.RED))
         val blue = Some(GamePiece(GamePieceColor.BLUE))
-        f.controller.currentPlayer = 0
+        f.controller.gameStatus = GameStatus.RED_TURN
         f.controller.put(1, 1)
         f.controller.get(1, 1, 0) should be(red)
 
-        f.controller.currentPlayer = 1
+        f.controller.gameStatus = GameStatus.BLUE_TURN
         f.controller.put(1, 2)
         f.controller.get(1, 2, 0) should be(blue)
       }
