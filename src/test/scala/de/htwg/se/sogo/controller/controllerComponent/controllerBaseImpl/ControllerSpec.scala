@@ -164,6 +164,15 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.put(9, 9)
         controller.undo
       }
+      "not process put commands after a player has won" in {
+        val controller = new Controller(new GameBoard(2))
+        controller.put(0, 0)
+        controller.put(0, 1)
+        controller.put(0, 0)
+        controller.put(1, 1)
+        controller.gameStatus should be(GameStatus.RED_WON)
+        controller.get(1, 1, 0) should be(None)
+      }
     }
   }
 }
