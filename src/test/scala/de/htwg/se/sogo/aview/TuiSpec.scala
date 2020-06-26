@@ -12,7 +12,7 @@ import org.scalatest.matchers.should.Matchers
 class TuiSpec extends AnyWordSpec with Matchers {
 
   def fixture = new {
-    val controller = new Controller(new GameBoard(4, 4, 4))
+    val controller = new Controller(new GameBoard(4))
     val tui = new Tui(controller)
   }
 
@@ -20,7 +20,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
     "create an empty Sogo on input 'n'" in {
       val f = fixture
       f.tui.processInputLine("n")
-      val newGameBoard = new GameBoard(4, 4, 4)
+      val newGameBoard = new GameBoard(4)
       f.controller.gameBoard should be(newGameBoard)
     }
     "undo a step on input 'u'" in {

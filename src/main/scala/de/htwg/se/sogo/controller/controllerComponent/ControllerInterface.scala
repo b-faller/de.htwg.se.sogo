@@ -6,7 +6,7 @@ import de.htwg.se.sogo.controller.controllerComponent.GameStatus.GameStatus
 import de.htwg.se.sogo.util.Observable
 
 trait ControllerInterface extends Observable {
-  def createEmptyGameBoard(size: Int): Unit
+  def createNewGameBoard(size: Int): Unit
   def put(x: Int, y: Int): Try[Unit]
   def undo: Unit
   def redo: Unit

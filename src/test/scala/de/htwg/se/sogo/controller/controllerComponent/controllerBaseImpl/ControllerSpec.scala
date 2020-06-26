@@ -15,7 +15,7 @@ import org.scalatest.matchers.should.Matchers
 class ControllerSpec extends AnyWordSpec with Matchers {
 
   def fixture = new {
-    val gameBoard = new GameBoard(4, 4, 4)
+    val gameBoard = new GameBoard(4)
     val controller = new Controller(gameBoard)
     val observer = new Observer {
       var updated: Boolean = false
@@ -30,8 +30,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "notify its Observer after creation" in {
         val f = fixture
         f.observer.isUpdated should be(false)
-        val newGameBoard = new GameBoard(3, 3, 3)
-        f.controller.createEmptyGameBoard(3)
+        val newGameBoard = new GameBoard(3)
+        f.controller.createNewGameBoard(3)
         f.controller.gameBoard should be(newGameBoard)
         f.observer.isUpdated should be(true)
       }
@@ -80,7 +80,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         f.controller.get(1, 2, 0) should be(blue)
       }
       "return wether a player has won" in {
-        var gameBoard = new GameBoard(2, 2, 2)
+        var gameBoard = new GameBoard(2)
         var controller = new Controller(gameBoard)
         val red = Some(GamePiece(GamePieceColor.RED))
         val p1 = new Player("Player 1", GamePieceColor.RED)
@@ -114,7 +114,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         val newGameBoard = new GameBoard(3)
         var controller = new Controller(oldGameBoard)
         controller.gameBoard should be(oldGameBoard)
-        controller.createEmptyGameBoard(3)
+        controller.createNewGameBoard(3)
         controller.gameBoard should be(newGameBoard)
         controller.undo
         controller.gameBoard should be(oldGameBoard)
@@ -124,7 +124,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         val newGameBoard = new GameBoard(3)
         var controller = new Controller(oldGameBoard)
         controller.gameBoard should be(oldGameBoard)
-        controller.createEmptyGameBoard(3)
+        controller.createNewGameBoard(3)
         controller.undo
         controller.redo
         controller.gameBoard should be(newGameBoard)

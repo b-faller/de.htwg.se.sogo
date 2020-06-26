@@ -3,6 +3,9 @@ package de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl
 import scala.collection.mutable.StringBuilder
 import scala.util.Try
 
+import com.google.inject.Inject
+import com.google.inject.name.Named
+
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
@@ -13,15 +16,14 @@ object GameBoardFactory {
   }
 }
 
-case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]])
-    extends GameBoardInterface {
+case class GameBoard(
+    boardVect: Vector[Vector[Vector[Option[GamePiece]]]]
+) extends GameBoardInterface {
 
-  def this(dimX: Int, dimY: Int, dimZ: Int) =
-    this(Vector.fill(dimX, dimY, dimZ)(None))
+  def this(size: Int) =
+    this(Vector.fill(size, size, size)(None))
 
-  def this(d: Int) = this(d, d, d)
-
-  def dim(): Int = boardVect.length
+  val dim = boardVect.length
 
   def isEmpty: Boolean = {
     boardVect.flatten.flatten.forall((p: Option[GamePiece]) => p.isEmpty)

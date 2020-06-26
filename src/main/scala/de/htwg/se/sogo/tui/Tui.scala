@@ -13,7 +13,7 @@ class Tui(controller: ControllerInterface) extends Observer {
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "n" => controller.createEmptyGameBoard(size)
+      case "n" => controller.createNewGameBoard(size)
       case "u" => controller.undo
       case "r" => controller.redo
       case _ =>

@@ -5,6 +5,7 @@ import scala.util.Try
 import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 trait GameBoardInterface {
+  def dim: Int
   def placePiece(piece: GamePiece, pos: (Int, Int)): Try[GameBoardInterface]
   def popPiece(pos: (Int, Int)): (GameBoardInterface, Option[GamePiece])
   def get(pos: (Int, Int, Int)): Option[GamePiece]

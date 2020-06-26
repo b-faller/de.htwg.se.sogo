@@ -7,15 +7,15 @@ import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 class GameBoardSpec extends AnyFlatSpec with Matchers {
   "A GameBoard" should "be Empty when new" in {
-    val board = new GameBoard(4, 4, 4)
+    val board = new GameBoard(4)
     board.get(3, 3, 3) should be(None)
   }
   it should "be created using a factory method" in {
-    GameBoardFactory.apply("small") should be(new GameBoard(3, 3, 3))
-    GameBoardFactory.apply("standard") should be(new GameBoard(4, 4, 4))
+    GameBoardFactory.apply("small") should be(new GameBoard(3))
+    GameBoardFactory.apply("standard") should be(new GameBoard(4))
   }
   it should "accept and be able to retrieve pieces" in {
-    var board = new GameBoard(4, 4, 4)
+    var board = new GameBoard(4)
     val piece1 = new GamePiece(GamePieceColor.RED)
     val piece2 = new GamePiece(GamePieceColor.BLUE)
     board = board.placePiece(piece1, (3, 3)).get
@@ -26,7 +26,7 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
     board.get(2, 1, 0) should be(None)
   }
   it should "fail on an out of bounds operation" in {
-    var board = new GameBoard(4, 4, 4)
+    var board = new GameBoard(4)
     val piece1 = new GamePiece(GamePieceColor.RED)
     board.placePiece(piece1, (0, 0)).isFailure should be(false)
     board.placePiece(piece1, (9, 9)).isFailure should be(true)
@@ -63,7 +63,7 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
     board.isEmpty should be(true)
   }
   it should "return a string representation of itself" in {
-    var board = new GameBoard(3, 3, 3)
+    var board = new GameBoard(3)
     val piece_r = new GamePiece(GamePieceColor.RED)
     val piece_b = new GamePiece(GamePieceColor.BLUE)
     board = board.set(Some(piece_r), (0, 0, 0))
@@ -89,7 +89,7 @@ Plane 2
 """)
   }
   it should "be winnable" in {
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWon(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 0))
@@ -102,7 +102,7 @@ Plane 2
     // -------
     // | | |
     // |R|R|
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonX(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 1, 1))
@@ -116,7 +116,7 @@ Plane 2
     // -------
     // | |R|
     // | |R|
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonY(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 0, 1))
@@ -135,7 +135,7 @@ Plane 2
     // -------
     // | | |
     // | |R|
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonZ(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 1, 0))
@@ -154,7 +154,7 @@ Plane 2
     // -------
     // | |R|
     // | | |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonXAscending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 0))
@@ -173,7 +173,7 @@ Plane 2
     // -------
     // |R| |
     // | | |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonXDescending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 1))
@@ -192,7 +192,7 @@ Plane 2
     // -------
     // | | |
     // |R| |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonYAscending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 0))
@@ -211,7 +211,7 @@ Plane 2
     // -------
     // | |R|
     // | | |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonYDescending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 0, 1))
@@ -225,7 +225,7 @@ Plane 2
     // -------
     // |R| |
     // | |R|
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonally(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 1))
@@ -239,7 +239,7 @@ Plane 2
     // -------
     // | |R|
     // |R| |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonally(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 0, 1))
@@ -258,7 +258,7 @@ Plane 2
     // -------
     // | | |
     // | |R|
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 0))
@@ -277,7 +277,7 @@ Plane 2
     // -------
     // |R| |
     // | | |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (0, 0, 1))
@@ -296,7 +296,7 @@ Plane 2
     // -------
     // | | |
     // |R| |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonallyAscending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 0, 0))
@@ -315,7 +315,7 @@ Plane 2
     // -------
     // | |R|
     // | | |
-    var board = new GameBoard(2, 2, 2)
+    var board = new GameBoard(2)
     val piece = new GamePiece(GamePieceColor.RED)
     board.hasWonDiagonallyDescending(GamePieceColor.RED) should be(false)
     board = board.set(Some(piece), (1, 0, 1))

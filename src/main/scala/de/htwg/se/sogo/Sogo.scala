@@ -1,12 +1,13 @@
 package de.htwg.se.sogo
 
-import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
-import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
+import com.google.inject.Guice
+
+import de.htwg.se.sogo.controller.controllerComponent.ControllerInterface
 import de.htwg.se.sogo.aview.Tui
 
 object Sogo {
-  val defaultsize = 4;
-  val controller = new Controller(new GameBoard(defaultsize))
+  val injector = Guice.createInjector(new SogoModule)
+  val controller = injector.getInstance(classOf[ControllerInterface])
   val tui = new Tui(controller)
   controller.notifyObservers
 

@@ -10,8 +10,9 @@ lazy val root = (project in file("."))
   .settings(
     name := "de.htwg.se.sogo",
     libraryDependencies += scalaTest % Test,
-    libraryDependencies += "org.scalactic" %% "scalactic" % "3.1.1",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % "test"
   )
+
+libraryDependencies += "net.codingwell" %% "scala-guice" % "4.2.9"
 
 // See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
