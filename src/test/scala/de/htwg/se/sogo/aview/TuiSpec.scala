@@ -3,7 +3,8 @@ package de.htwg.se.sogo.aview
 import scala.language.reflectiveCalls
 
 import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
-import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor}
+import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers

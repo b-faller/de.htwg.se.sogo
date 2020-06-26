@@ -4,7 +4,9 @@ import scala.language.reflectiveCalls
 
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus
-import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
+import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
+import de.htwg.se.sogo.model.playerComponent.Player
 import de.htwg.se.sogo.util.Observer
 
 import org.scalatest.wordspec.{AnyWordSpec}

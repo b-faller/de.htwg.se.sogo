@@ -1,10 +1,11 @@
 package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.sogo.util.Command
-import de.htwg.se.sogo.model.GameBoard
+import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
+import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
 
 class NewGameCommand(size: Int, controller: Controller) extends Command {
-  var memento: GameBoard = controller.gameBoard
+  var memento: GameBoardInterface = controller.gameBoard
 
   override def doStep: Unit = {
     memento = controller.gameBoard

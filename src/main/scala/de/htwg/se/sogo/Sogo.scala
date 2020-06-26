@@ -1,11 +1,12 @@
 package de.htwg.se.sogo
 
-import de.htwg.se.sogo.model.GameBoardFactory
+import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
 import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.sogo.aview.Tui
 
 object Sogo {
-  val controller = new Controller(GameBoardFactory.apply("standard"))
+  val defaultsize = 4;
+  val controller = new Controller(new GameBoard(defaultsize))
   val tui = new Tui(controller)
   controller.notifyObservers
 

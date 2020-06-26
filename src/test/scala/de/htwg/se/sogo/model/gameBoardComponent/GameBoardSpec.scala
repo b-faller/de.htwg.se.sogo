@@ -1,7 +1,9 @@
-package de.htwg.se.sogo.model
+package de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 class GameBoardSpec extends AnyFlatSpec with Matchers {
   "A GameBoard" should "be Empty when new" in {

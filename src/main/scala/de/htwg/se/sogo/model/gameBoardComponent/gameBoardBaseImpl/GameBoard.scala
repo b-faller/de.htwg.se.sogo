@@ -1,7 +1,10 @@
-package de.htwg.se.sogo.model
+package de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl
 
 import scala.collection.mutable.StringBuilder
 import scala.util.Try
+
+import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 object GameBoardFactory {
   def apply(s: String): GameBoard = s match {
@@ -10,7 +13,9 @@ object GameBoardFactory {
   }
 }
 
-case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]]) {
+case class GameBoard(boardVect: Vector[Vector[Vector[Option[GamePiece]]]])
+    extends GameBoardInterface {
+
   def this(dimX: Int, dimY: Int, dimZ: Int) =
     this(Vector.fill(dimX, dimY, dimZ)(None))
 

@@ -4,7 +4,6 @@ import de.htwg.se.sogo.controller.controllerComponent.{
   ControllerInterface,
   GameStatus
 }
-import de.htwg.se.sogo.model.{GameBoard}
 import de.htwg.se.sogo.util.Observer
 
 class Tui(controller: ControllerInterface) extends Observer {
