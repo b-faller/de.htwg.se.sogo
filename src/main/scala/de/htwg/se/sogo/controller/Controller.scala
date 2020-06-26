@@ -11,8 +11,6 @@ class Controller(var gameBoard: GameBoard) extends Observable {
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = RED_TURN
-  var stateStackForeward = Stack[GameStatus]()
-  var stateStackBackward = Stack[GameStatus]()
 
   val players = Vector(
     new Player("Player 1", GamePieceColor.RED),

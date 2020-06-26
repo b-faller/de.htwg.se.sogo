@@ -8,28 +8,32 @@ import de.htwg.se.sogo.model.GamePieceColor._
 
 class PutCommand(x: Int, y: Int, piece: GamePiece, controller: Controller)
     extends Command {
+  var memento: GameStatus = controller.gameStatus
+
   override def doStep: Unit = {
-    if(controller.gameStatus == RED_TURN || controller.gameStatus == BLUE_TURN)
+    if (controller.gameStatus == RED_TURN || controller.gameStatus == BLUE_TURN)
       controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y)).get
-    
-    controller.stateStackBackward.push(controller.gameStatus)
-    controller.gameStatus = if (controller.gameStatus == RED_TURN) BLUE_TURN else RED_TURN
-    
-    controller.gameStatus = controller.hasWon() match{
-      case Some(player) => if(player.color.equals(RED)) RED_WON else BLUE_WON
-      case None => controller.gameStatus
+
+    memento = controller.gameStatus
+
+    controller.gameStatus =
+      if (controller.gameStatus == RED_TURN) BLUE_TURN else RED_TURN
+
+    controller.gameStatus = controller.hasWon() match {
+      case Some(player) => if (player.color.equals(RED)) RED_WON else BLUE_WON
+      case None         => controller.gameStatus
     }
   }
 
   override def undoStep: Unit = {
+    val new_memento = controller.gameStatus
     controller.gameBoard = controller.gameBoard.popPiece((x, y))._1
-    controller.stateStackForeward.push(controller.gameStatus)
-    controller.gameStatus = controller.stateStackBackward.pop()
+    memento = new_memento
   }
 
   override def redoStep: Unit = {
+    val new_memento = controller.gameStatus
     controller.gameBoard = controller.gameBoard.placePiece(piece, (x, y)).get
-    controller.stateStackBackward.push(controller.gameStatus)
-    controller.gameStatus = controller.stateStackForeward.pop()
+    memento = new_memento
   }
 }
