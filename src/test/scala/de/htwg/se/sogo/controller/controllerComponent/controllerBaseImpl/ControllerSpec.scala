@@ -1,7 +1,9 @@
-package de.htwg.se.sogo.controller
+package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
 import scala.language.reflectiveCalls
 
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.Observer
 
@@ -90,20 +92,20 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "undo the last put" in {
         var controller = new Controller(new GameBoard(2))
         val red = Some(GamePiece(GamePieceColor.RED))
-        controller.gameBoard.get((0,0,0)) should be(None)
+        controller.gameBoard.get((0, 0, 0)) should be(None)
         controller.put(0, 0)
-        controller.gameBoard.get((0,0,0)) should be(red)
+        controller.gameBoard.get((0, 0, 0)) should be(red)
         controller.undo
-        controller.gameBoard.get((0,0,0)) should be(None)
+        controller.gameBoard.get((0, 0, 0)) should be(None)
       }
       "redo the last put" in {
         var controller = new Controller(new GameBoard(2))
         val red = Some(GamePiece(GamePieceColor.RED))
-        controller.gameBoard.get((0,0,0)) should be(None)
+        controller.gameBoard.get((0, 0, 0)) should be(None)
         controller.put(0, 0)
         controller.undo
         controller.redo
-        controller.gameBoard.get((0,0,0)) should be(red)
+        controller.gameBoard.get((0, 0, 0)) should be(red)
       }
       "undo starting a new game" in {
         val oldGameBoard = new GameBoard(2)

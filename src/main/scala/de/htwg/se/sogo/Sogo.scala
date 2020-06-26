@@ -1,7 +1,7 @@
 package de.htwg.se.sogo
 
 import de.htwg.se.sogo.model.GameBoardFactory
-import de.htwg.se.sogo.controller.Controller
+import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.sogo.aview.Tui
 
 object Sogo {

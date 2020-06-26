@@ -2,7 +2,7 @@ package de.htwg.se.sogo.aview
 
 import scala.language.reflectiveCalls
 
-import de.htwg.se.sogo.controller.Controller
+import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor}
 
 import org.scalatest.wordspec.AnyWordSpec

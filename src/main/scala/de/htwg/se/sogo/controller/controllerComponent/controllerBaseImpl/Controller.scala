@@ -1,13 +1,13 @@
-package de.htwg.se.sogo.controller
+package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.sogo.controller.GameStatus._
 import scala.util.Try
 
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
+import de.htwg.se.sogo.controller.controllerComponent._
 import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor, Player}
 import de.htwg.se.sogo.util.{Observable, UndoManager}
-import scala.collection.mutable.Stack
 
-class Controller(var gameBoard: GameBoard) extends Observable {
+class Controller(var gameBoard: GameBoard) extends ControllerInterface {
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = RED_TURN
@@ -54,4 +54,6 @@ class Controller(var gameBoard: GameBoard) extends Observable {
   }
 
   def gameBoardToString(): String = gameBoard.toString
+
+  def statusText: String = GameStatus.message(gameStatus)
 }

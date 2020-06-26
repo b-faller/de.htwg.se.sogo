@@ -1,4 +1,4 @@
-package de.htwg.se.sogo.controller
+package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
 import de.htwg.se.sogo.util.Command
 import de.htwg.se.sogo.model.GameBoard

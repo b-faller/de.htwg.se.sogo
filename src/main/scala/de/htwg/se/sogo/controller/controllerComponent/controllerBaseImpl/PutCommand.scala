@@ -1,6 +1,6 @@
-package de.htwg.se.sogo.controller
+package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
-import de.htwg.se.sogo.controller.GameStatus._
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.util.Command
 import de.htwg.se.sogo.model.GamePiece
 import de.htwg.se.sogo.model.GameBoard

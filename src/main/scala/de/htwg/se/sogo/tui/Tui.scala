@@ -1,10 +1,13 @@
 package de.htwg.se.sogo.aview
 
-import de.htwg.se.sogo.controller.{Controller, GameStatus}
+import de.htwg.se.sogo.controller.controllerComponent.{
+  ControllerInterface,
+  GameStatus
+}
 import de.htwg.se.sogo.model.{GameBoard}
 import de.htwg.se.sogo.util.Observer
 
-class Tui(controller: Controller) extends Observer {
+class Tui(controller: ControllerInterface) extends Observer {
   controller.add(this)
   val size = 4
 
@@ -30,6 +33,6 @@ class Tui(controller: Controller) extends Observer {
   override def update: Unit = {
     println("Game board:")
     println(controller.gameBoardToString)
-    println(GameStatus.message(controller.gameStatus))
+    println(controller.statusText)
   }
 }
