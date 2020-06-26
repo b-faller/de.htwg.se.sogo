@@ -30,7 +30,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "notify its Observer after creation" in {
         val f = fixture
         f.observer.isUpdated should be(false)
-        val newGameBoard = new GameBoard(3)
+        var newGameBoard = new GameBoard(3)
         f.controller.createNewGameBoard(3)
         f.controller.gameBoard should be(newGameBoard)
         f.observer.isUpdated should be(true)
@@ -58,6 +58,14 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         val f = fixture
         f.controller.players(0) should be(p1)
         f.controller.players(1) should be(p2)
+      }
+      "create a test game board" in {
+        val f = fixture
+        f.controller.gameBoard.dim should be(4)
+        f.controller.createNewGameBoard(2)
+        var newGameBoard = new GameBoard(2)
+        f.controller.gameBoard should be(newGameBoard)
+        f.controller.gameBoard.dim should be(2)
       }
       "change state after placing a GamePiece" in {
         val f = fixture
@@ -128,6 +136,28 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.undo
         controller.redo
         controller.gameBoard should be(newGameBoard)
+      }
+      "undo/redo the hasWon status" in {
+        val controller = new Controller(new GameBoard(3))
+        controller.gameStatus should be(GameStatus.RED_TURN)
+        controller.put(0, 0)
+        controller.put(1, 0)
+        controller.put(0, 0)
+        controller.put(1, 0)
+        controller.put(0, 0)
+        controller.gameStatus should be(GameStatus.RED_WON)
+        controller.undo
+        controller.gameStatus should be(GameStatus.RED_TURN)
+        controller.redo
+        controller.gameStatus should be(GameStatus.RED_WON)
+        controller.undo
+        controller.put(2, 2)
+        controller.put(1, 0)
+        controller.gameStatus should be(GameStatus.BLUE_WON)
+        controller.undo
+        controller.gameStatus should be(GameStatus.BLUE_TURN)
+        controller.redo
+        controller.gameStatus should be(GameStatus.BLUE_WON)
       }
       "not fail to undo after an invalid put" in {
         var controller = new Controller(new GameBoard(2))
