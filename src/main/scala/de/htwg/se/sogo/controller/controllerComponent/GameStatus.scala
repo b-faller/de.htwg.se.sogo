@@ -1,4 +1,4 @@
-package de.htwg.se.sogo.controller
+package de.htwg.se.sogo.controller.controllerComponent
 
 object GameStatus extends Enumeration{
   type GameStatus = Value

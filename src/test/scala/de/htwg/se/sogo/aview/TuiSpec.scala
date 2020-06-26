@@ -2,8 +2,9 @@ package de.htwg.se.sogo.aview
 
 import scala.language.reflectiveCalls
 
-import de.htwg.se.sogo.controller.Controller
-import de.htwg.se.sogo.model.{GameBoard, GamePiece, GamePieceColor}
+import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
@@ -11,7 +12,7 @@ import org.scalatest.matchers.should.Matchers
 class TuiSpec extends AnyWordSpec with Matchers {
 
   def fixture = new {
-    val controller = new Controller(new GameBoard(4, 4, 4))
+    val controller = new Controller(new GameBoard(4))
     val tui = new Tui(controller)
   }
 
@@ -19,7 +20,7 @@ class TuiSpec extends AnyWordSpec with Matchers {
     "create an empty Sogo on input 'n'" in {
       val f = fixture
       f.tui.processInputLine("n")
-      val newGameBoard = new GameBoard(4, 4, 4)
+      val newGameBoard = new GameBoard(4)
       f.controller.gameBoard should be(newGameBoard)
     }
     "undo a step on input 'u'" in {
