@@ -10,9 +10,10 @@ import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 import de.htwg.se.sogo.model.playerComponent.Player
 import de.htwg.se.sogo.util.{Observable, UndoManager}
+import scala.swing.Publisher
 
 class Controller @Inject() (var gameBoard: GameBoardInterface)
-    extends ControllerInterface {
+    extends ControllerInterface with Publisher{
 
   private val undoManager = new UndoManager
   var gameStatus: GameStatus = RED_TURN
@@ -22,15 +23,19 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
     new Player("Player 2", GamePieceColor.BLUE)
   )
 
+  def createDefaultGameBoard: Unit = {
+    createNewGameBoard(4)
+  }
+
   def createNewGameBoard(size: Int): Unit = {
     undoManager.doStep(new NewGameCommand(size, this)).get
-    notifyObservers
+    publish(new boardChanged)
   }
 
   def put(x: Int, y: Int): Try[Unit] = {
     val piece = new GamePiece(players(GameStatus.player(this.gameStatus)).color)
     val result = undoManager.doStep(new PutCommand(x, y, piece, this))
-    notifyObservers
+    publish(new boardContentChanged)
     result
   }
 
@@ -50,12 +55,12 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
 
   def undo: Unit = {
     undoManager.undoStep
-    notifyObservers
+    publish(new boardContentChanged)
   }
 
   def redo: Unit = {
     undoManager.redoStep
-    notifyObservers
+    publish(new boardContentChanged)
   }
 
   def gameBoardToString(): String = gameBoard.toString

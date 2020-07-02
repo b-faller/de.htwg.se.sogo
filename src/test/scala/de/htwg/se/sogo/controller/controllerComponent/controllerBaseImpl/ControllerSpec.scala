@@ -17,15 +17,17 @@ class ControllerSpec extends AnyWordSpec with Matchers {
   def fixture = new {
     val gameBoard = new GameBoard(4)
     val controller = new Controller(gameBoard)
+    /*
     val observer = new Observer {
       var updated: Boolean = false
       def isUpdated: Boolean = updated
       override def update: Unit = { this.updated = true }
     }
-    controller.add(observer)
+    controller.add(observer)*/
   }
 
   "A Controller" when {
+    /*
     "observed by an observer" should {
       "notify its Observer after creation" in {
         val f = fixture
@@ -47,6 +49,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         f.observer.isUpdated should be(false)
       }
     }
+    */
     "controlling" should {
       val p1 = new Player("Player 1", GamePieceColor.RED)
       val p2 = new Player("Player 2", GamePieceColor.BLUE)

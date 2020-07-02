@@ -4,16 +4,19 @@ import de.htwg.se.sogo.controller.controllerComponent.{
   ControllerInterface,
   GameStatus
 }
-import de.htwg.se.sogo.util.Observer
+import de.htwg.se.sogo.controller.controllerComponent.{
+  boardChanged,
+  boardContentChanged
+}
+import scala.swing.Reactor
 
-class Tui(controller: ControllerInterface) extends Observer {
-  controller.add(this)
-  val size = 4
+class Tui(controller: ControllerInterface) extends Reactor {
+  listenTo(controller)
 
   def processInputLine(input: String): Unit = {
     input match {
       case "q" =>
-      case "n" => controller.createNewGameBoard(size)
+      case "n" => controller.createDefaultGameBoard
       case "u" => controller.undo
       case "r" => controller.redo
       case _ =>
@@ -29,7 +32,12 @@ class Tui(controller: ControllerInterface) extends Observer {
     }
   }
 
-  override def update: Unit = {
+  reactions += {
+      case event: boardChanged => printTui
+      case event: boardContentChanged => printTui
+  }
+
+  def printTui: Unit = {
     println("Game board:")
     println(controller.gameBoardToString)
     println(controller.statusText)
