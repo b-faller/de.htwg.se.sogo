@@ -29,13 +29,15 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
 
   def createNewGameBoard(size: Int): Unit = {
     undoManager.doStep(new NewGameCommand(size, this)).get
-    publish(new boardChanged)
+    publish(new BoardChanged)
   }
+
+  def gameBoardSize: Int = gameBoard.dim
 
   def put(x: Int, y: Int): Try[Unit] = {
     val piece = new GamePiece(players(GameStatus.player(this.gameStatus)).color)
     val result = undoManager.doStep(new PutCommand(x, y, piece, this))
-    publish(new boardContentChanged)
+    publish(new BoardContentChanged)
     result
   }
 
@@ -55,12 +57,12 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
 
   def undo: Unit = {
     undoManager.undoStep
-    publish(new boardContentChanged)
+    publish(new BoardContentChanged)
   }
 
   def redo: Unit = {
     undoManager.redoStep
-    publish(new boardContentChanged)
+    publish(new BoardContentChanged)
   }
 
   def gameBoardToString(): String = gameBoard.toString
