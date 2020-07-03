@@ -10,19 +10,19 @@ object Sogo {
   val injector = Guice.createInjector(new SogoModule)
   val controller = injector.getInstance(classOf[ControllerInterface])
   val tui = new Tui(controller)
-  val gui = new SwingGui(controller)
 
   controller.createDefaultGameBoard
 
   def main(args: Array[String]): Unit = {
-    var input = ""
-    if (!args.isEmpty) {
-      tui.processInputLine(args(0))
-    } else {
-      do {
-        input = scala.io.StdIn.readLine()
-        tui.processInputLine(input)
-      } while (input != "q")
+    // Init gui only if --nogui is not passed
+    if (args.size > 1 && args(1) != "--nogui") {
+      val gui = new SwingGui(controller)
     }
+
+    var input = ""
+    do {
+      input = scala.io.StdIn.readLine()
+      tui.processInputLine(input)
+    } while (input != "q")
   }
 }

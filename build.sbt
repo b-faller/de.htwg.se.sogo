@@ -1,8 +1,11 @@
 import Dependencies._
 
 ThisBuild / scalaVersion     := "2.13.1"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
+ThisBuild / version          := "0.2.0"
 ThisBuild / organization     := "de.htwg.se"
+
+// Disable subfolder in target directory
+crossPaths := false
 
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature")
 
@@ -15,5 +18,3 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "net.codingwell" %% "scala-guice" % "4.2.9"
-
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
