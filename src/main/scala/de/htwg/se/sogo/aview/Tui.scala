@@ -5,8 +5,8 @@ import de.htwg.se.sogo.controller.controllerComponent.{
   GameStatus
 }
 import de.htwg.se.sogo.controller.controllerComponent.{
-  boardChanged,
-  boardContentChanged
+  BoardChanged,
+  BoardContentChanged
 }
 import scala.swing.Reactor
 
@@ -33,8 +33,8 @@ class Tui(controller: ControllerInterface) extends Reactor {
   }
 
   reactions += {
-      case event: boardChanged => printTui
-      case event: boardContentChanged => printTui
+    case event: BoardChanged        => printTui
+    case event: BoardContentChanged => printTui
   }
 
   def printTui: Unit = {

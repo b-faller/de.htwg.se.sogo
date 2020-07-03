@@ -17,6 +17,8 @@ class Controller(var gameBoard: GameBoardInterface)
 
   def createNewGameBoard(size: Int): Unit = {}
 
+  def gameBoardSize: Int = 4
+
   def put(x: Int, y: Int): Try[Unit] = Try((): Unit)
 
   def get(x: Int, y: Int, z: Int): Option[GamePiece] = gameBoard.get((x, y, z))
