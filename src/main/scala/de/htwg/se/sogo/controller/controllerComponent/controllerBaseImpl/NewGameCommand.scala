@@ -5,14 +5,17 @@ import com.google.inject.Guice
 import net.codingwell.scalaguice.InjectorExtensions._
 
 import de.htwg.se.sogo.SogoModule
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.util.Command
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 
 class NewGameCommand(size: Int, controller: Controller) extends Command {
-  var memento: GameBoardInterface = controller.gameBoard
+  var memento_gb: GameBoardInterface = controller.gameBoard
+  var memento_state: GameStatus = controller.gameStatus
 
   override def doStep: Unit = {
-    memento = controller.gameBoard
+    memento_gb = controller.gameBoard
+    memento_state = controller.gameStatus
     val injector = Guice.createInjector(new SogoModule)
     size match {
       case 2 => {
@@ -28,17 +31,24 @@ class NewGameCommand(size: Int, controller: Controller) extends Command {
           injector.instance[GameBoardInterface](Names.named("standard"))
       }
     }
+    controller.gameStatus = RED_TURN
   }
 
   override def undoStep: Unit = {
-    val new_memento = controller.gameBoard
-    controller.gameBoard = memento
-    memento = new_memento
+    val new_memento_gb = controller.gameBoard
+    val new_memento_state = controller.gameStatus
+    controller.gameBoard = memento_gb
+    controller.gameStatus = memento_state
+    memento_gb = new_memento_gb
+    memento_state = new_memento_state
   }
 
   override def redoStep: Unit = {
-    val new_memento = controller.gameBoard
-    controller.gameBoard = memento
-    memento = new_memento
+    val new_memento_gb = controller.gameBoard
+    val new_memento_state = controller.gameStatus
+    controller.gameBoard = memento_gb
+    controller.gameStatus = memento_state
+    memento_gb = new_memento_gb
+    memento_state = new_memento_state
   }
 }
