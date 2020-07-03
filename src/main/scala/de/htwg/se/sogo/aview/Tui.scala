@@ -16,7 +16,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "n" => controller.createDefaultGameBoard
       case "u" => controller.undo
       case "r" => controller.redo
-      case _ =>
+      case _ => {
         try {
           input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
             case x :: y :: Nil =>
@@ -25,7 +25,9 @@ class Tui(controller: ControllerInterface) extends Reactor {
           }
         } catch {
           case _: NumberFormatException =>
+          case _: NullPointerException  =>
         }
+      }
     }
   }
 
