@@ -2,11 +2,13 @@ package de.htwg.se.sogo.aview.gui
 
 import scala.swing._
 import scala.swing.event._
+import scala.swing.Swing.LineBorder
 
 import de.htwg.se.sogo.controller.controllerComponent.{
-  GameBoardContentsChanged,
+  BoardContentChanged,
   ControllerInterface
 }
+import de.htwg.se.sogo.model.{GamePieceColor, GamePiece}
 
 class GamePiecePanel(x: Int, y: Int, z: Int, controller: ControllerInterface)
     extends FlowPanel {
@@ -18,38 +20,32 @@ class GamePiecePanel(x: Int, y: Int, z: Int, controller: ControllerInterface)
   def myPiece = controller.get(x, y, z)
 
   def pieceColor: Color = {
-    if (myPiece == "") {
-      cellColor
-    } else if (myPiece == "R") {
+    if (myPiece.isEmpty) {
+      noPieceColor
+    } else if (myPiece.get.color == GamePieceColor.RED) {
       redColor
-    } else if (myPiece == "B") {
+    } else {
       blueColor
     }
   }
 
-  val cell = new BoxPanel(Orientation.Vertical) {
-    preferredSize = new Dimension(51, 51)
-    background = pieceColor
-    border = Swing.BeveledBorder(Swing.Raised)
-    listenTo(mouse.clicks)
-    listenTo(controller)
-    reactions += {
-      case e: GameBoardContentsChanged => {
-        background = pieceColor
-        repaint
-      }
-      case MouseClicked(src, pt, mod, clicks, pops) => {
-        controller.put(x, y)
-        repaint
-      }
+  border = LineBorder(java.awt.Color.BLACK, 2)
+  background = pieceColor
+  listenTo(mouse.clicks)
+  listenTo(controller)
+  reactions += {
+    case e: BoardContentChanged => {
+      background = pieceColor
+      repaint
+    }
+    case MouseClicked(src, pt, mod, clicks, pops) => {
+      controller.put(x, y)
+      repaint
     }
   }
 
-  def redraw = repaint
-
-  def setBackground(p: Panel) =
-    p.background =
-      if (controller.isGiven(row, column)) givenCellColor
-      else if (controller.isHighlighted(row, column)) highlightedCellColor
-      else cellColor
+  def redraw = {
+    background = pieceColor
+    repaint
+  }
 }

@@ -3,6 +3,7 @@ package de.htwg.se.sogo.controller.controllerComponent
 import scala.util.Try
 
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus.GameStatus
+import de.htwg.se.sogo.model.GamePiece
 import de.htwg.se.sogo.util.Observable
 import scala.swing.Publisher
 import scala.swing.event.Event
