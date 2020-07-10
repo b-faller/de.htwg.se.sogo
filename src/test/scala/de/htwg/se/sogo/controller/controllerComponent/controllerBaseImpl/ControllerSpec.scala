@@ -181,6 +181,10 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.setActiveBoardLayer(2)
         controller.getActiveBoardLayer should be(2)
       }
+      "be able to correctly retrieve gameBoardSize" in {
+        val controller = new Controller(new GameBoard(2))
+        controller.gameBoardSize should be(2)
+      }
     }
   }
 }
