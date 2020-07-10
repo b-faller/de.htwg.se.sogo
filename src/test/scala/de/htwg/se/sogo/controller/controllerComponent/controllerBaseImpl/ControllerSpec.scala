@@ -80,15 +80,15 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       }
       "place a GamePiece with the players color" in {
         val f = fixture
-        val red = Some(GamePiece(GamePieceColor.RED))
-        val blue = Some(GamePiece(GamePieceColor.BLUE))
+        val red = Some(GamePieceColor.RED)
+        val blue = Some(GamePieceColor.BLUE)
         f.controller.gameStatus = GameStatus.RED_TURN
         f.controller.put(1, 1)
-        f.controller.get(1, 1, 0) should be(red)
+        f.controller.getGamePieceColor(1, 1, 0) should be(red)
 
         f.controller.gameStatus = GameStatus.BLUE_TURN
         f.controller.put(1, 2)
-        f.controller.get(1, 2, 0) should be(blue)
+        f.controller.getGamePieceColor(1, 2, 0) should be(blue)
       }
       "return wether a player has won" in {
         var gameBoard = new GameBoard(2)
@@ -174,7 +174,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.put(0, 0)
         controller.put(1, 1)
         controller.gameStatus should be(GameStatus.RED_WON)
-        controller.get(1, 1, 0) should be(None)
+        controller.getGamePieceColor(1, 1, 0) should be(None)
       }
     }
   }

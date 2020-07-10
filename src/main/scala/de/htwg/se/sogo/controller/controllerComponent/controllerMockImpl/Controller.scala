@@ -5,8 +5,8 @@ import scala.util.Try
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.controller.controllerComponent._
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
-import de.htwg.se.sogo.model.GamePiece
 import de.htwg.se.sogo.model.playerComponent.Player
+import de.htwg.se.sogo.model.GamePieceColor
 
 class Controller(var gameBoard: GameBoardInterface)
     extends ControllerInterface {
@@ -21,7 +21,7 @@ class Controller(var gameBoard: GameBoardInterface)
 
   def put(x: Int, y: Int): Try[Unit] = Try((): Unit)
 
-  def get(x: Int, y: Int, z: Int): Option[GamePiece] = gameBoard.get((x, y, z))
+  def getGamePieceColor(x: Int, y: Int, z: Int): Option[GamePieceColor.Value] = None
 
   def hasWon(): Option[Player] = None
 
@@ -32,4 +32,8 @@ class Controller(var gameBoard: GameBoardInterface)
   def gameBoardToString(): String = gameBoard.toString
 
   def statusText: String = GameStatus.message(gameStatus)
+
+  def setActiveBoardLayer(z: Int): Unit = {}
+
+  def getActiveBoardLayer: Int = 0
 }

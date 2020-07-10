@@ -15,7 +15,8 @@ object Sogo {
 
   def main(args: Array[String]): Unit = {
     // Init gui only if --nogui is not passed
-    if (args.size > 1 && args(1) != "--nogui") {
+    if (args.size > 1 && args(1).contains("--nogui")) {
+    } else {
       val gui = new SwingGui(controller)
     }
 

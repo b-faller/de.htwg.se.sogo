@@ -39,8 +39,13 @@ case class GameBoard(
     )
   }
 
-  def get(pos: (Int, Int, Int)): Option[GamePiece] =
-    boardVect(pos._1)(pos._2)(pos._3)
+  def get(pos: (Int, Int, Int)): Option[GamePiece] = {
+    if(pos._1 < this.dim && pos._2 < this.dim && pos._3 < this.dim) {
+      boardVect(pos._1)(pos._2)(pos._3)
+    } else {
+      None
+    }
+  }
 
   def placePiece(piece: GamePiece, pos: (Int, Int)): Try[GameBoard] = {
     Try({
