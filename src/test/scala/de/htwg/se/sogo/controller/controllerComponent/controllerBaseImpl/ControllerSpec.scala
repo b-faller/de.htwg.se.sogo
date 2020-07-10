@@ -176,6 +176,11 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameStatus should be(GameStatus.RED_WON)
         controller.getGamePieceColor(1, 1, 0) should be(None)
       }
+      "be able to set and retrieve the active layer" in {
+        val controller = new Controller(new GameBoard(2))
+        controller.setActiveBoardLayer(2)
+        controller.getActiveBoardLayer should be(2)
+      }
     }
   }
 }
