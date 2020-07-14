@@ -27,12 +27,12 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
   def createDefaultGameBoard: Unit = {
     createNewGameBoard(4)
     publish(new BoardChanged)
-
   }
 
   def createNewGameBoard(size: Int): Unit = {
     undoManager.doStep(new NewGameCommand(size, this)).get
     publish(new BoardChanged)
+    setActiveBoardLayer(0)
   }
 
   def gameBoardSize: Int = gameBoard.dim

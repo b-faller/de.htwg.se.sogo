@@ -21,9 +21,9 @@ class SwingGui(controller: ControllerInterface) extends Frame {
   )
 
   def controlPanel: FlowPanel = new FlowPanel {
-    val layerSlider = new Slider {
+    var layerSlider = new Slider {
       min = 0
-      max = 3
+      max = controller.gameBoardSize-1
       majorTickSpacing = 1
       snapToTicks = true
       paintTicks = true
@@ -32,6 +32,11 @@ class SwingGui(controller: ControllerInterface) extends Frame {
       reactions += {
         case event: ValueChanged => {
           controller.setActiveBoardLayer(value)
+          redraw
+        }
+        case event: BoardChanged => {
+          max = controller.gameBoardSize-1
+          value = controller.getActiveBoardLayer
           redraw
         }
       }
@@ -52,8 +57,8 @@ class SwingGui(controller: ControllerInterface) extends Frame {
       }
     }
     contents += planeLabel
-    contents += planeUp
     contents += planeDown
+    contents += planeUp
     contents += layerSlider
   }
 
@@ -110,6 +115,9 @@ class SwingGui(controller: ControllerInterface) extends Frame {
     case event: BoardChanged => {
       resize(controller.gameBoardSize)
       redraw
+    }
+    case event: WindowClosing => {
+      System.exit(0)
     }
   }
 

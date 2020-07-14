@@ -13,7 +13,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
 
   def processInputLine(input: String): Unit = {
     input match {
-      case "q" =>
+      case "q" => System.exit(0)
       case "n" => controller.createDefaultGameBoard
       case "u" => controller.undo
       case "r" => controller.redo
