@@ -1,5 +1,6 @@
 package de.htwg.se.sogo.aview
 
+import java.security.Permission
 import scala.language.reflectiveCalls
 
 import de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl.Controller
@@ -8,6 +9,20 @@ import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
+
+sealed case class ExitException(status: Int) extends SecurityException("System.exit() is not allowed") {
+}
+
+sealed class NoExitSecurityManager extends SecurityManager {
+  override def checkPermission(perm: Permission): Unit = {}
+
+  override def checkPermission(perm: Permission, context: Object): Unit = {}
+
+  override def checkExit(status: Int): Unit = {
+    super.checkExit(status)
+    throw ExitException(status)
+  }
+}
 
 class TuiSpec extends AnyWordSpec with Matchers {
 
@@ -68,6 +83,15 @@ class TuiSpec extends AnyWordSpec with Matchers {
     "ignore an arbitrary input" in {
       val f = fixture
       f.tui.processInputLine("something went wrong")
+    }
+    "should exit on q" in {
+      System.setSecurityManager(new NoExitSecurityManager())
+      val f = fixture
+      val thrown = intercept[Exception] {
+        f.tui.processInputLine("q")
+      }
+      thrown.getMessage should be("System.exit() is not allowed")
+      System.setSecurityManager(null)
     }
   }
 }
