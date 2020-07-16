@@ -18,3 +18,4 @@ lazy val root = (project in file("."))
   )
 
 libraryDependencies += "net.codingwell" %% "scala-guice" % "4.2.9"
+coverageExcludedPackages := ".*gui.*;.*Sogo.*;.*controllerMockImpl"
