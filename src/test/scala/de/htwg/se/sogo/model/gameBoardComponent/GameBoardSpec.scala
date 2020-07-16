@@ -24,6 +24,7 @@ class GameBoardSpec extends AnyFlatSpec with Matchers {
     board.get(3, 3, 1) should be(Some(piece2))
     board.get(3, 3, 2) should be(None)
     board.get(2, 1, 0) should be(None)
+    board.get(5, 5, 5) should be(None)
   }
   it should "fail on an out of bounds operation" in {
     var board = new GameBoard(4)

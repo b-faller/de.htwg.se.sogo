@@ -53,6 +53,10 @@ class TuiSpec extends AnyWordSpec with Matchers {
       val f = fixture
       f.tui.processInputLine("99")
     }
+    "ignore an Null Pointer Exception" in {
+      val f = fixture
+      f.tui.processInputLine(null)
+    }
     "ignore an invalid put when no vertical space is free" in {
       val f = fixture
       f.tui.processInputLine("00")
