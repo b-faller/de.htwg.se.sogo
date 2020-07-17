@@ -1,28 +1,87 @@
 package de.htwg.se.sogo.model.fileIOComponent.fileIOJsonImpl
 
-import com.google.inject.Guice
 import java.io._
-import play.api.libs.json.{JsNumber, JsValue, Json, Writes}
+import scala.io.Source
+import play.api.libs.json.{JsString, JsNumber, JsValue, Json, Writes}
+import play.api.libs.functional.syntax._
+
+import com.google.inject.Inject
+import com.google.inject.name.Names
+import com.google.inject.Guice
+import net.codingwell.scalaguice.InjectorExtensions._
 
 import de.htwg.se.sogo.model.fileIOComponent.FileIOInterface
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
+import de.htwg.se.sogo.controller.controllerComponent.GameStatus
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
+import de.htwg.se.sogo.SogoModule
 
-class FileIO extends FileIOInterface{
+class FileIO @Inject() (var gameBoard: GameBoardInterface) extends FileIOInterface{
     def toJson(board: GameBoardInterface, status: GameStatus) = {
-        null
+        Json.obj(
+            "currentState" -> JsString(status.toString),
+            "boardSize" -> JsNumber(board.dim),
+            "gameBoard" -> Json.toJson(
+                for {
+                    x <- 0 until board.dim
+                    y <- 0 until board.dim
+                    z <- 0 until board.dim
+                } yield {
+                    var obj = Json.obj (
+                        "x" -> x,
+                        "y" -> y,
+                        "z" -> z
+                    )
+                    if (!board.get(x, y, z).isEmpty) {
+                        obj = obj.++(
+                            Json.obj(
+                                "color" -> board.get(x, y, z).get.toString
+                            )
+                        )
+                    }
+                    obj
+                }
+            )
+        )
     }
-    override def save(board: GameBoardInterface, status: GameStatus): Unit = {
+    override def save(board: GameBoardInterface, status: GameStatus): Boolean = {
         val writer = new PrintWriter(new File("sogoGame.json"))
         writer.write(Json.prettyPrint(toJson(board, status)))
         writer.close()
+        true
     }
     override def load(): (GameBoardInterface, GameStatus) = {
+        val injector = Guice.createInjector(new SogoModule)
         var board: GameBoardInterface = null
         val source: String = Source.fromFile("sogoGame.json").getLines().mkString
         val json: JsValue = Json.parse(source)
-        val injector = Guice.createInjector(new SogoModule)
-        board = injector.getInstance(classOf[GameBoardInterface])
-        null
+        val stateName = (json \ "currentState").as[String]
+        val boardSize = (json \ "boardSize").as[Int]
+        val currentState = GameStatus.withName(stateName)
+        
+        boardSize match {
+            case 2 => {
+                board = injector.instance[GameBoardInterface](Names.named("test"))
+            }
+            case 3 => {
+                board = injector.instance[GameBoardInterface](Names.named("small"))
+            }
+            case 4 => {
+                board = injector.instance[GameBoardInterface](Names.named("standard"))
+            }
+        }
+
+        for(index <- 0 until boardSize) {
+            val x = (json \\ "x")(index).as[Int]
+            val y = (json \\ "y")(index).as[Int]
+            val z = (json \\ "z")(index).as[Int]
+            if (!(json \\ "color")(index).as[String].isEmpty) {
+                var color = GamePieceColor.withName((json \\ "color")(index).as[String])
+                var piece = new GamePiece(color)
+                board = board.set(Some(piece), (x, y, z))
+            }
+        }
+        (board, currentState)
     }
 }

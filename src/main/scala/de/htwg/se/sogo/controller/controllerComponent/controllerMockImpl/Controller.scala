@@ -7,8 +7,9 @@ import de.htwg.se.sogo.controller.controllerComponent._
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.model.playerComponent.Player
 import de.htwg.se.sogo.model.GamePieceColor
+import de.htwg.se.sogo.model.fileIOComponent.FileIOInterface
 
-class Controller(var gameBoard: GameBoardInterface)
+class Controller(var gameBoard: GameBoardInterface, var fileIO: FileIOInterface)
     extends ControllerInterface {
 
   var gameStatus: GameStatus = RED_TURN
@@ -36,4 +37,8 @@ class Controller(var gameBoard: GameBoardInterface)
   def setActiveBoardLayer(z: Int): Unit = {}
 
   def getActiveBoardLayer: Int = 0
+
+  def save: Boolean = false
+
+  def load: Boolean = false
 }

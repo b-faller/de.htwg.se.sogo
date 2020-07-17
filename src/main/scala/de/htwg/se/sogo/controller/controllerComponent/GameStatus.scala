@@ -2,7 +2,11 @@ package de.htwg.se.sogo.controller.controllerComponent
 
 object GameStatus extends Enumeration{
   type GameStatus = Value
-  val RED_TURN, BLUE_TURN, RED_WON, BLUE_WON, DRAW = Value
+  val RED_TURN = Value("RED_TURN")
+  val BLUE_TURN = Value("BLUE_TURN")
+  val RED_WON = Value("RED_WON")
+  val BLUE_WON = Value("BLUE_WON")
+  val DRAW = Value("Draw")
 
   val map = Map[GameStatus, String](
     RED_TURN -> "Player Red's turn",

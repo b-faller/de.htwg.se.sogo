@@ -5,5 +5,5 @@ import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 
 trait FileIOInterface {
     def load: (GameBoardInterface, GameStatus)
-    def save(board: GameBoardInterface, status: GameStatus): Unit
+    def save(board: GameBoardInterface, status: GameStatus): Boolean
 }

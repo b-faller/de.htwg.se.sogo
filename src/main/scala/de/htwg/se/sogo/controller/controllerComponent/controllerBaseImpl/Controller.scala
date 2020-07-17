@@ -2,7 +2,7 @@ package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
 import scala.util.Try
 
-import com.google.inject.Inject
+import com.google.inject.{Guice, Inject}
 
 import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.controller.controllerComponent._
@@ -10,9 +10,11 @@ import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.model.{GamePieceColor, GamePiece}
 import de.htwg.se.sogo.model.playerComponent.Player
 import de.htwg.se.sogo.util.{Observable, UndoManager}
+import de.htwg.se.sogo.model.fileIOComponent.FileIOInterface
+import de.htwg.se.sogo.SogoModule
 import scala.swing.Publisher
 
-class Controller @Inject() (var gameBoard: GameBoardInterface)
+class Controller @Inject() (var gameBoard: GameBoardInterface, var fileIO: FileIOInterface)
     extends ControllerInterface with Publisher{
 
   private val undoManager = new UndoManager
@@ -78,6 +80,16 @@ class Controller @Inject() (var gameBoard: GameBoardInterface)
   def redo: Unit = {
     undoManager.redoStep
     publish(new BoardChanged)
+  }
+
+  override def save: Boolean = {
+    return fileIO.save(gameBoard, gameStatus)
+  }
+
+  override def load: Boolean = {
+    val (board: GameBoardInterface, status: GameStatus) = fileIO.load
+    
+    true
   }
 
   def gameBoardToString(): String = gameBoard.toString

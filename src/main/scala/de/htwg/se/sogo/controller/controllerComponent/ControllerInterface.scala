@@ -22,6 +22,8 @@ trait ControllerInterface extends Publisher {
   def statusText: String
   def setActiveBoardLayer(z: Int): Unit
   def getActiveBoardLayer: Int
+  def load: Boolean
+  def save: Boolean
 }
 
 class BoardChanged extends Event
