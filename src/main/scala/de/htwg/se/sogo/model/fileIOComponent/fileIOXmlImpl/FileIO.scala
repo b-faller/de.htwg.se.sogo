@@ -16,8 +16,7 @@ import de.htwg.se.sogo.model.{GamePiece, GamePieceColor, GameStatus}
 import de.htwg.se.sogo.model.GameStatus._
 import de.htwg.se.sogo.SogoModule
 
-class FileIO @Inject() (var gameBoard: GameBoardInterface)
-    extends FileIOInterface {
+class FileIO extends FileIOInterface {
   def toXml(board: GameBoardInterface, status: GameStatus) = {
     <game>
       <currentState>{status.toString}</currentState>
@@ -35,7 +34,7 @@ class FileIO @Inject() (var gameBoard: GameBoardInterface)
             <z>{z}</z>
             {
               if (!board.get(x, y, z).isEmpty) {
-                <color>{board.get(x, y, z).get.toString}</color>
+                <color>{board.get(x, y, z).get.color}</color>
               }
             }
           </place>

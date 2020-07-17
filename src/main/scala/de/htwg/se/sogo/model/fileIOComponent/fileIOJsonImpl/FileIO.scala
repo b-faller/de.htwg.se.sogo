@@ -17,8 +17,7 @@ import de.htwg.se.sogo.model.{GamePiece, GamePieceColor, GameStatus}
 import de.htwg.se.sogo.model.GameStatus._
 import de.htwg.se.sogo.SogoModule
 
-class FileIO @Inject() (var gameBoard: GameBoardInterface)
-    extends FileIOInterface {
+class FileIO extends FileIOInterface {
   def toJson(board: GameBoardInterface, status: GameStatus) = {
     Json.obj(
       "currentState" -> JsString(status.toString),
@@ -37,7 +36,7 @@ class FileIO @Inject() (var gameBoard: GameBoardInterface)
           if (!board.get(x, y, z).isEmpty) {
             obj = obj.++(
               Json.obj(
-                "color" -> board.get(x, y, z).get.toString
+                "color" -> board.get(x, y, z).get.color
               )
             )
           }

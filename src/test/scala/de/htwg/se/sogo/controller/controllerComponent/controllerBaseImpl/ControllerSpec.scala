@@ -2,10 +2,10 @@ package de.htwg.se.sogo.controller.controllerComponent.controllerBaseImpl
 
 import scala.language.reflectiveCalls
 
-import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
-import de.htwg.se.sogo.controller.controllerComponent.GameStatus
 import de.htwg.se.sogo.model.gameBoardComponent.gameBoardBaseImpl.GameBoard
-import de.htwg.se.sogo.model.{GamePiece, GamePieceColor}
+import de.htwg.se.sogo.model.fileIOComponent._
+import de.htwg.se.sogo.model.{GamePiece, GamePieceColor, GameStatus}
+import de.htwg.se.sogo.model.GameStatus._
 import de.htwg.se.sogo.model.playerComponent.Player
 import de.htwg.se.sogo.util.Observer
 
@@ -15,8 +15,8 @@ import org.scalatest.matchers.should.Matchers
 class ControllerSpec extends AnyWordSpec with Matchers {
 
   def fixture = new {
-    val gameBoard = new GameBoard(4)
-    val controller = new Controller(gameBoard)
+    val fileIo = new fileIOJsonImpl.FileIO()
+    val controller = new Controller(new GameBoard(4), fileIo)
     /*
     val observer = new Observer {
       var updated: Boolean = false
@@ -49,7 +49,7 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         f.observer.isUpdated should be(false)
       }
     }
-    */
+     */
     "controlling" should {
       val p1 = new Player("Player 1", GamePieceColor.RED)
       val p2 = new Player("Player 2", GamePieceColor.BLUE)
@@ -91,19 +91,21 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         f.controller.getGamePieceColor(1, 2, 0) should be(blue)
       }
       "return wether a player has won" in {
+        val fileIo = new fileIOJsonImpl.FileIO()
         var gameBoard = new GameBoard(2)
-        var controller = new Controller(gameBoard)
+        var controller = new Controller(gameBoard, fileIo)
         val red = Some(GamePiece(GamePieceColor.RED))
         val p1 = new Player("Player 1", GamePieceColor.RED)
         controller.hasWon should be(None)
 
         gameBoard = gameBoard.set(red, (0, 0, 0))
         gameBoard = gameBoard.set(red, (1, 0, 0))
-        controller = new Controller(gameBoard)
+        controller = new Controller(gameBoard, fileIo)
         controller.hasWon should be(Some(p1))
       }
       "undo the last put" in {
-        var controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        var controller = new Controller(new GameBoard(2), fileIo)
         val red = Some(GamePiece(GamePieceColor.RED))
         controller.gameBoard.get((0, 0, 0)) should be(None)
         controller.put(0, 0)
@@ -112,7 +114,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameBoard.get((0, 0, 0)) should be(None)
       }
       "redo the last put" in {
-        var controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        var controller = new Controller(new GameBoard(2), fileIo)
         val red = Some(GamePiece(GamePieceColor.RED))
         controller.gameBoard.get((0, 0, 0)) should be(None)
         controller.put(0, 0)
@@ -123,7 +126,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "undo starting a new game" in {
         val oldGameBoard = new GameBoard(2)
         val newGameBoard = new GameBoard(3)
-        var controller = new Controller(oldGameBoard)
+        val fileIo = new fileIOJsonImpl.FileIO()
+        var controller = new Controller(oldGameBoard, fileIo)
         controller.gameBoard should be(oldGameBoard)
         controller.createNewGameBoard(3)
         controller.gameBoard should be(newGameBoard)
@@ -133,7 +137,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
       "redo starting a new game" in {
         val oldGameBoard = new GameBoard(2)
         val newGameBoard = new GameBoard(3)
-        var controller = new Controller(oldGameBoard)
+        val fileIo = new fileIOJsonImpl.FileIO()
+        var controller = new Controller(oldGameBoard, fileIo)
         controller.gameBoard should be(oldGameBoard)
         controller.createNewGameBoard(3)
         controller.undo
@@ -141,7 +146,8 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameBoard should be(newGameBoard)
       }
       "undo/redo the hasWon status" in {
-        val controller = new Controller(new GameBoard(3))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        val controller = new Controller(new GameBoard(3), fileIo)
         controller.gameStatus should be(GameStatus.RED_TURN)
         controller.put(0, 0)
         controller.put(1, 0)
@@ -163,12 +169,14 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.gameStatus should be(GameStatus.BLUE_WON)
       }
       "not fail to undo after an invalid put" in {
-        var controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        var controller = new Controller(new GameBoard(2), fileIo)
         controller.put(9, 9)
         controller.undo
       }
       "not process put commands after a player has won" in {
-        val controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        val controller = new Controller(new GameBoard(2), fileIo)
         controller.put(0, 0)
         controller.put(0, 1)
         controller.put(0, 0)
@@ -177,13 +185,26 @@ class ControllerSpec extends AnyWordSpec with Matchers {
         controller.getGamePieceColor(1, 1, 0) should be(None)
       }
       "be able to set and retrieve the active layer" in {
-        val controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        val controller = new Controller(new GameBoard(2), fileIo)
         controller.setActiveBoardLayer(2)
         controller.getActiveBoardLayer should be(2)
       }
       "be able to correctly retrieve gameBoardSize" in {
-        val controller = new Controller(new GameBoard(2))
+        val fileIo = new fileIOJsonImpl.FileIO()
+        val controller = new Controller(new GameBoard(2), fileIo)
         controller.gameBoardSize should be(2)
+      }
+      "load/save a game" in {
+        val fileIo = new fileIOXmlImpl.FileIO()
+        val controller = new Controller(new GameBoard(4), fileIo)
+        controller.put(0, 0)
+        controller.save
+        controller.createNewGameBoard(2)
+        controller.load
+        controller.getGamePieceColor(0, 0, 0) should be(
+          Some(GamePieceColor.RED)
+        )
       }
     }
   }
