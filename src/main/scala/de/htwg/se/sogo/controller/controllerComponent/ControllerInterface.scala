@@ -2,8 +2,8 @@ package de.htwg.se.sogo.controller.controllerComponent
 
 import scala.util.Try
 
-import de.htwg.se.sogo.controller.controllerComponent.GameStatus.GameStatus
 import de.htwg.se.sogo.model.GamePiece
+import de.htwg.se.sogo.model.GameStatus._
 import de.htwg.se.sogo.util.Observable
 import scala.swing.Publisher
 import scala.swing.event.Event
@@ -22,10 +22,10 @@ trait ControllerInterface extends Publisher {
   def statusText: String
   def setActiveBoardLayer(z: Int): Unit
   def getActiveBoardLayer: Int
-  def load: Boolean
-  def save: Boolean
+  def load: Unit
+  def save: Unit
 }
 
 class BoardChanged extends Event
-class BoardLayerChanged(var z:Int) extends Event
-class BoardContentChanged(var x: Int, var y:Int) extends Event
+class BoardLayerChanged(var z: Int) extends Event
+class BoardContentChanged(var x: Int, var y: Int) extends Event

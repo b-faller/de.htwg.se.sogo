@@ -2,7 +2,6 @@ package de.htwg.se.sogo.aview
 
 import de.htwg.se.sogo.controller.controllerComponent.{
   ControllerInterface,
-  GameStatus,
   BoardChanged,
   BoardContentChanged
 }
@@ -17,6 +16,8 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "n" => controller.createDefaultGameBoard
       case "u" => controller.undo
       case "r" => controller.redo
+      case "s" => controller.save
+      case "l" => controller.load
       case _ => {
         try {
           input.toList.filter(c => c != ' ').map(c => c.toString.toInt) match {
@@ -33,7 +34,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
   }
 
   reactions += {
-    case event: BoardChanged => printTui
+    case event: BoardChanged        => printTui
     case event: BoardContentChanged => printTui
   }
 
