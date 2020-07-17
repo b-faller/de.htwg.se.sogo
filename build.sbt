@@ -6,6 +6,8 @@ ThisBuild / organization     := "de.htwg.se"
 
 // Disable subfolder in target directory
 crossPaths := false
+// Quick 'n' dirty fix for testing filesystem access
+parallelExecution in Test := false
 
 scalacOptions in ThisBuild ++= Seq("-unchecked", "-deprecation", "-feature")
 
