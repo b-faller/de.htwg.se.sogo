@@ -5,8 +5,8 @@ import com.google.inject.Guice
 import net.codingwell.scalaguice.InjectorExtensions._
 
 import de.htwg.se.sogo.SogoModule
-import de.htwg.se.sogo.controller.controllerComponent.GameStatus._
 import de.htwg.se.sogo.util.Command
+import de.htwg.se.sogo.model.GameStatus._
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 
 class NewGameCommand(size: Int, controller: Controller) extends Command {
@@ -17,19 +17,10 @@ class NewGameCommand(size: Int, controller: Controller) extends Command {
     memento_gb = controller.gameBoard
     memento_state = controller.gameStatus
     val injector = Guice.createInjector(new SogoModule)
-    size match {
-      case 2 => {
-        controller.gameBoard =
-          injector.instance[GameBoardInterface](Names.named("test"))
-      }
-      case 3 => {
-        controller.gameBoard =
-          injector.instance[GameBoardInterface](Names.named("small"))
-      }
-      case 4 => {
-        controller.gameBoard =
-          injector.instance[GameBoardInterface](Names.named("standard"))
-      }
+    controller.gameBoard = size match {
+      case 2 => injector.instance[GameBoardInterface](Names.named("test"))
+      case 3 => injector.instance[GameBoardInterface](Names.named("small"))
+      case 4 => injector.instance[GameBoardInterface](Names.named("standard"))
     }
     controller.gameStatus = RED_TURN
   }

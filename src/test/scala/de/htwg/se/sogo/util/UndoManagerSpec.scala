@@ -49,5 +49,14 @@ class UndoManagerSpec extends AnyWordSpec with Matchers {
       undoManager.redoStep
       command.state should be(1)
     }
+
+    "clear a the undo/redo stacks" in {
+      val undoManager = new UndoManager
+      val command = new incrCommand
+      undoManager.doStep(command)
+      command.state should be(1)
+      undoManager.clear
+      command.state should be(1)
+    }
   }
 }

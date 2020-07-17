@@ -96,8 +96,8 @@ class SwingGui(controller: ControllerInterface) extends Frame {
           gameBoardPanel
         })
       }
-      contents += new MenuItem(Action("Open") { /* load game from file */ })
-      contents += new MenuItem(Action("Save") { /* save game to file */ })
+      contents += new MenuItem(Action("Open") { controller.load })
+      contents += new MenuItem(Action("Save") { controller.save })
       contents += new MenuItem(Action("Quit") { System.exit(0) })
     }
     contents += new Menu("Edit") {

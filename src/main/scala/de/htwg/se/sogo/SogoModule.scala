@@ -7,6 +7,7 @@ import net.codingwell.scalaguice.ScalaModule
 import de.htwg.se.sogo.controller.controllerComponent._
 import de.htwg.se.sogo.model.gameBoardComponent.GameBoardInterface
 import de.htwg.se.sogo.model.gameBoardComponent.gameBoardAdvancedImpl.GameBoard
+import de.htwg.se.sogo.model.fileIOComponent._
 
 class SogoModule extends AbstractModule with ScalaModule {
   val defaultSize: Int = 4
@@ -15,6 +16,7 @@ class SogoModule extends AbstractModule with ScalaModule {
     bindConstant().annotatedWith(Names.named("DefaultSize")).to(defaultSize)
     bind[GameBoardInterface].to[GameBoard]
     bind[ControllerInterface].to[controllerBaseImpl.Controller]
+    bind[FileIOInterface].to[fileIOXmlImpl.FileIO]
     bind[GameBoardInterface]
       .annotatedWithName("test")
       .toInstance(new GameBoard(2))
