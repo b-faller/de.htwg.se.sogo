@@ -16,7 +16,7 @@ class SogoModule extends AbstractModule with ScalaModule {
     bindConstant().annotatedWith(Names.named("DefaultSize")).to(defaultSize)
     bind[GameBoardInterface].to[GameBoard]
     bind[ControllerInterface].to[controllerBaseImpl.Controller]
-    bind[FileIOInterface].to[fileIOJsonImpl.FileIO]
+    bind[FileIOInterface].to[fileIOXmlImpl.FileIO]
     bind[GameBoardInterface]
       .annotatedWithName("test")
       .toInstance(new GameBoard(2))

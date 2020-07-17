@@ -19,4 +19,6 @@ lazy val root = (project in file("."))
 
 libraryDependencies += "net.codingwell" %% "scala-guice" % "4.2.9"
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.9.0"
+libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.3.0"
+
 coverageExcludedPackages := ".*gui.*;.*Sogo.*;.*controllerMockImpl"

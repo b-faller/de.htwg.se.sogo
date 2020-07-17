@@ -4,6 +4,7 @@ target
 project/metals.sbt
 .gitignore
 *.json
+*.xml
 src/.metals/metals.h2.db
 .metals/
 .bloop/
